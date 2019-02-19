@@ -19,6 +19,9 @@ public:
 
 public slots:
 
+    void openProject();
+    void saveProject();
+
 private:
     Ui::MainWindow *ui;
     Ui::Rendering *uiRendering;
