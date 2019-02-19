@@ -11,13 +11,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-
-    QWidget *renderingWidget = new QWidget();
-    uiRendering->setupUi(renderingWidget);
-    renderingWidget->show();
-
-    ui->Rendering->setWidget(renderingWidget);
-
     inspector = new Inspector();
     ui->Inspector->setWidget(inspector);
 
