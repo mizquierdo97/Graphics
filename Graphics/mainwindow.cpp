@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include "ui_rendering.h"
 #include "inspector.h"
-
+#include "inspectorwidget.h"
 #include <iostream>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -11,9 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    inspector = new Inspector();
-    ui->Inspector->setWidget(inspector);
-
+    inspectorWidget = new InspectorWidget();
+    ui->Inspector->setWidget(inspectorWidget);
     connect(ui->actionOpen_Project, SIGNAL(triggered()), this, SLOT(openProject()));
     connect(ui->actionSave_Prohect, SIGNAL(triggered()), this, SLOT(saveProject()));
     connect(ui->actionExit, SIGNAL(triggered()), qApp, SLOT(quit()));
