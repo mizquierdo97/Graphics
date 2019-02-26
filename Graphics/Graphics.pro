@@ -28,13 +28,15 @@ SOURCES += \
         mainwindow.cpp \
     inspector.cpp \
     openglwidget.cpp \
-    inspectorwidget.cpp
+    inspectorwidget.cpp \
+    customwidget.cpp
 
 HEADERS += \
         mainwindow.h \
     inspector.h \
     openglwidget.h \
-    inspectorwidget.h
+    inspectorwidget.h \
+    customwidget.h
 
 FORMS += \
         mainwindow.ui \

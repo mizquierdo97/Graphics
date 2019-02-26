@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "customwidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -9,6 +10,7 @@ class Rendering;
 }
 class Inspector;
 class InspectorWidget;
+class CustomWidget;
 
 class MainWindow : public QMainWindow
 {

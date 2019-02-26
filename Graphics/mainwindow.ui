@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="OpenGlWidget" name="openGLWidget"/>
+     <widget class="CustomWidget" name="widget" native="true"/>
     </item>
    </layout>
   </widget>
@@ -122,9 +122,10 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>OpenGlWidget</class>
-   <extends>QOpenGLWidget</extends>
-   <header>openglwidget.h</header>
+   <class>CustomWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">customwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
