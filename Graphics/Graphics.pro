@@ -29,14 +29,20 @@ SOURCES += \
     inspector.cpp \
     openglwidget.cpp \
     inspectorwidget.cpp \
-    customwidget.cpp
+    customwidget.cpp \
+    hierarchy.cpp \
+    object.cpp \
+    component.cpp
 
 HEADERS += \
         mainwindow.h \
     inspector.h \
     openglwidget.h \
     inspectorwidget.h \
-    customwidget.h
+    customwidget.h \
+    hierarchy.h \
+    object.h \
+    component.h
 
 FORMS += \
         mainwindow.ui \
