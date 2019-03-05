@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="AddObject">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -23,10 +23,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>PushButton</string>
+    <string>Add Object</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="DeleteObject">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -36,10 +36,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>PushButton</string>
+    <string>Delete Object</string>
    </property>
   </widget>
-  <widget class="QListView" name="listView">
+  <widget class="QListView" name="HierarchyList">
    <property name="geometry">
     <rect>
      <x>10</x>

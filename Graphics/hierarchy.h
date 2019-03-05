@@ -3,6 +3,7 @@
 
 #include <QWidget>
 
+class Object;
 namespace Ui {
 class Hierarchy;
 }
@@ -15,8 +16,12 @@ public:
     explicit Hierarchy(QWidget *parent = 0);
     ~Hierarchy();
 
+    void addObject();
+    void deleteObject();
 private:
     Ui::Hierarchy *ui;
+
+    QList<Object> objectList;
 };
 
 #endif // HIERARCHY_H
