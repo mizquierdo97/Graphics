@@ -3,15 +3,20 @@
 
 #include <QWidget>
 
+namespace Ui {
+class Hierarchy;
+}
+
 class Hierarchy : public QWidget
 {
     Q_OBJECT
+
 public:
-    explicit Hierarchy(QWidget *parent = nullptr);
+    explicit Hierarchy(QWidget *parent = 0);
+    ~Hierarchy();
 
-signals:
-
-public slots:
+private:
+    Ui::Hierarchy *ui;
 };
 
 #endif // HIERARCHY_H

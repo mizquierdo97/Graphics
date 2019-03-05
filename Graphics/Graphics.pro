@@ -30,9 +30,9 @@ SOURCES += \
     openglwidget.cpp \
     inspectorwidget.cpp \
     customwidget.cpp \
-    hierarchy.cpp \
     object.cpp \
-    component.cpp
+    component.cpp \
+    hierarchy.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -40,14 +40,15 @@ HEADERS += \
     openglwidget.h \
     inspectorwidget.h \
     customwidget.h \
-    hierarchy.h \
     object.h \
-    component.h
+    component.h \
+    hierarchy.h
 
 FORMS += \
         mainwindow.ui \
     rendering.ui \
-    inspector.ui
+    inspector.ui \
+    hierarchy.ui
 
 #Adds openGL library
 QT += opengl

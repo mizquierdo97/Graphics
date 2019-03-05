@@ -11,6 +11,7 @@ class Rendering;
 class Inspector;
 class InspectorWidget;
 class CustomWidget;
+class Hierarchy;
 
 class MainWindow : public QMainWindow
 {
@@ -30,6 +31,7 @@ private:
     Ui::Rendering *uiRendering;
     //Inspector *inspector;
     InspectorWidget *inspectorWidget;
+    Hierarchy *hierarchyWidget;
 };
 
 #endif // MAINWINDOW_H

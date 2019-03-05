@@ -4,6 +4,7 @@
 #include "inspector.h"
 #include "inspectorwidget.h"
 #include <iostream>
+#include "hierarchy.h"
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
@@ -13,6 +14,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     inspectorWidget = new InspectorWidget();
     ui->Inspector->setWidget(inspectorWidget);
+    
+    hierarchyWidget = new Hierarchy();
+    ui->Hierarchy->setWidget(hierarchyWidget);
     connect(ui->actionOpen_Project, SIGNAL(triggered()), this, SLOT(openProject()));
     connect(ui->actionSave_Prohect, SIGNAL(triggered()), this, SLOT(saveProject()));
     connect(ui->actionExit, SIGNAL(triggered()), qApp, SLOT(quit()));
