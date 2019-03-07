@@ -6,14 +6,17 @@
 #include <QSpacerItem>
 #include <QVBoxLayout>
 #include <QLayout>
+#include "object.h"
+#include <QtGui>
 
 Hierarchy::Hierarchy(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Hierarchy)
 {
     ui->setupUi(this);
-    connect(ui->actionOpen_Project, SIGNAL(triggered()), this, SLOT(openProject()));
-    connect(ui->actionSave_Prohect, SIGNAL(triggered()), this, SLOT(saveProject()));
+    connect(ui->AddObject, SIGNAL(clicked()), this, SLOT(addObject()));
+    connect(ui->DeleteObject, SIGNAL(clicked()), this, SLOT(deleteObject()));
+    connect(ui->HierarchyList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(selectedItem(QListWidgetItem*)) );
 }
 
 Hierarchy::~Hierarchy()
@@ -23,10 +26,20 @@ Hierarchy::~Hierarchy()
 
 void Hierarchy::addObject()
 {
-    objectList.push_back();
+    Object* newObject = new Object();
+    objectList.push_back(newObject);
+    ui->HierarchyList->addItem("VIVA WILLYREX");
+    if(objectList.size() == 1)
+        selectedObject = newObject;
 }
 
 void Hierarchy::deleteObject()
 {
 
+}
+
+void Hierarchy::selectedItem(QListWidgetItem *item)
+{
+
+    ui->HierarchyList->addItem("VIVA WILLYREX");
 }

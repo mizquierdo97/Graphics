@@ -39,7 +39,7 @@
     <string>Delete Object</string>
    </property>
   </widget>
-  <widget class="QListView" name="HierarchyList">
+  <widget class="QListWidget" name="HierarchyList">
    <property name="geometry">
     <rect>
      <x>10</x>

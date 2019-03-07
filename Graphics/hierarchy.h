@@ -4,6 +4,7 @@
 #include <QWidget>
 
 class Object;
+class QListWidgetItem;
 namespace Ui {
 class Hierarchy;
 }
@@ -16,12 +17,15 @@ public:
     explicit Hierarchy(QWidget *parent = 0);
     ~Hierarchy();
 
+public slots:
     void addObject();
     void deleteObject();
+    void selectedItem(QListWidgetItem* item);
 private:
     Ui::Hierarchy *ui;
 
-    QList<Object> objectList;
+    QList<Object*> objectList;
+    Object* selectedObject = nullptr;
 };
 
 #endif // HIERARCHY_H
