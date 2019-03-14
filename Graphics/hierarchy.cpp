@@ -16,7 +16,7 @@ Hierarchy::Hierarchy(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->AddObject, SIGNAL(clicked()), this, SLOT(addObject()));
     connect(ui->DeleteObject, SIGNAL(clicked()), this, SLOT(deleteObject()));
-    connect(ui->HierarchyList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(selectedItem(QListWidgetItem*)) );
+    connect(ui->HierarchyList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(selectedItem(QListWidgetItem*)));
 }
 
 Hierarchy::~Hierarchy()
@@ -40,6 +40,5 @@ void Hierarchy::deleteObject()
 
 void Hierarchy::selectedItem(QListWidgetItem *item)
 {
-
     ui->HierarchyList->addItem("VIVA WILLYREX");
 }

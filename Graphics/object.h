@@ -3,6 +3,7 @@
 
 #include <QWidget>
 
+class Component;
 class Object : public QWidget
 {
     Q_OBJECT
@@ -12,6 +13,8 @@ public:
 signals:
 
 public slots:
+public:
+     QList<Component*> components;
 };
 
 #endif // OBJECT_H

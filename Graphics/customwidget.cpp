@@ -50,5 +50,4 @@ void CustomWidget::paintEvent(QPaintEvent *event)
 
     QRect circleRect(x,y,w,h);
     painter.drawEllipse(circleRect);
-
 }

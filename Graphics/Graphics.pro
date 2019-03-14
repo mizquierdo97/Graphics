@@ -32,7 +32,9 @@ SOURCES += \
     customwidget.cpp \
     object.cpp \
     component.cpp \
-    hierarchy.cpp
+    hierarchy.cpp \
+    componenttransform.cpp \
+    componentrender.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -42,7 +44,9 @@ HEADERS += \
     customwidget.h \
     object.h \
     component.h \
-    hierarchy.h
+    hierarchy.h \
+    componenttransform.h \
+    componentrender.h
 
 FORMS += \
         mainwindow.ui \
