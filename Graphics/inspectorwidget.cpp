@@ -26,7 +26,7 @@ InspectorWidget::~InspectorWidget()
 void InspectorWidget::UpdateInspector(Object *selectedObject)
 {
     //setStyleSheet(QString("background-color: rgb(0,0,0);"));
-       Inspector *transformWidget = new Inspector;
+       TransformWidget *transformWidget = new TransformWidget;
        QSpacerItem* spacer = new QSpacerItem(1,1, QSizePolicy::Expanding, QSizePolicy::Expanding);
 
        QVBoxLayout* layout = new QVBoxLayout;

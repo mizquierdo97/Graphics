@@ -7,16 +7,20 @@ namespace Ui {
 class Inspector;
 }
 
-class Inspector : public QWidget
+class TransformWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit Inspector(QWidget *parent = 0);
-    ~Inspector();
+    explicit TransformWidget(QWidget *parent = 0);
+    ~TransformWidget();
 
 private:
     Ui::Inspector *ui;
+public slots:
+    void UpdateX(double newX);
+    //void UpdateY(double newY);
+    //void UpdateZ(double newZ);
 };
 
 #endif // INSPECTOR_H

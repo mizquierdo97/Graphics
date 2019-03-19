@@ -44,13 +44,13 @@
      </widget>
     </item>
     <item>
-     <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
+     <widget class="QDoubleSpinBox" name="PosX"/>
     </item>
     <item>
-     <widget class="QDoubleSpinBox" name="doubleSpinBox_3"/>
+     <widget class="QDoubleSpinBox" name="PosY"/>
     </item>
     <item>
-     <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+     <widget class="QDoubleSpinBox" name="PosZ"/>
     </item>
    </layout>
   </widget>
