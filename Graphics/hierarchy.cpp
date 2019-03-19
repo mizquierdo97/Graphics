@@ -46,5 +46,5 @@ void Hierarchy::selectedItem(QListWidgetItem *item)
     QModelIndex modelIndex = indexes[0];
     int index = modelIndex.row();
     selectedObject = objectList[index];
-
+    parentWidget->inspectorWidget->UpdateInspector(selectedObject);
 }

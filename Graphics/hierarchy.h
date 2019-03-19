@@ -2,7 +2,7 @@
 #define HIERARCHY_H
 
 #include <QWidget>
-
+#include "mainwindow.h"
 class Object;
 class QListWidgetItem;
 namespace Ui {
@@ -21,11 +21,15 @@ public slots:
     void addObject();
     void deleteObject();
     void selectedItem(QListWidgetItem* item);
+
+public:
+    MainWindow* parentWidget = nullptr;
 private:
     Ui::Hierarchy *ui;
 
     QList<Object*> objectList;
     Object* selectedObject = nullptr;
+
 };
 
 #endif // HIERARCHY_H

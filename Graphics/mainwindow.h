@@ -26,11 +26,13 @@ public slots:
     void openProject();
     void saveProject();
 
+public:
+    InspectorWidget *inspectorWidget;
 private:
     Ui::MainWindow *ui;
     Ui::Rendering *uiRendering;
     //Inspector *inspector;
-    InspectorWidget *inspectorWidget;
+
     Hierarchy *hierarchyWidget;
     Object* selectedObject = nullptr;
 };

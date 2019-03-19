@@ -5,6 +5,10 @@
 #include <QVector3D>
 #include <QWidget>
 
+namespace Ui {
+class Inspector;
+}
+
 class componentTransform : public Component
 {
 public:
@@ -12,6 +16,7 @@ public:
     QVector3D pos;
     QVector3D rot;
     QVector3D scale;
+
 };
 
 #endif // COMPONENTTRANSFORM_H
