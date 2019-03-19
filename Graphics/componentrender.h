@@ -4,11 +4,11 @@
 #include "component.h"
 #include <QObject>
 #include <QPainter>
-
+#include <QWidget>
 class ComponentRender : public Component
 {
 public:
-    ComponentRender();
+    explicit ComponentRender(QWidget *parent = nullptr);
 public:
     int shape = 0;
     QColor fillColor;

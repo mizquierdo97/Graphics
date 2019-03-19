@@ -40,5 +40,11 @@ void Hierarchy::deleteObject()
 
 void Hierarchy::selectedItem(QListWidgetItem *item)
 {
-    ui->HierarchyList->addItem("VIVA WILLYREX");
+    QModelIndexList indexes = ui->HierarchyList->selectionModel()->selectedIndexes();
+    if(indexes.size() <= 0) return;
+
+    QModelIndex modelIndex = indexes[0];
+    int index = modelIndex.row();
+    selectedObject = objectList[index];
+
 }

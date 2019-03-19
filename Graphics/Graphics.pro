@@ -56,6 +56,7 @@ FORMS += \
 
 #Adds openGL library
 QT += opengl
+QT += core
 
 CONFIG += console
 

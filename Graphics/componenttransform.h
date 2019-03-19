@@ -3,11 +3,12 @@
 
 #include "component.h"
 #include <QVector3D>
+#include <QWidget>
 
 class componentTransform : public Component
 {
 public:
-    componentTransform();
+    explicit componentTransform(QWidget *parent = nullptr);
     QVector3D pos;
     QVector3D rot;
     QVector3D scale;

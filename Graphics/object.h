@@ -2,7 +2,7 @@
 #define OBJECT_H
 
 #include <QWidget>
-
+#include <QList>
 class Component;
 class Object : public QWidget
 {

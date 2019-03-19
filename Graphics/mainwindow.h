@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include "customwidget.h"
-
+#include "object.h"
 namespace Ui {
 class MainWindow;
 class Rendering;
@@ -32,6 +32,7 @@ private:
     //Inspector *inspector;
     InspectorWidget *inspectorWidget;
     Hierarchy *hierarchyWidget;
+    Object* selectedObject = nullptr;
 };
 
 #endif // MAINWINDOW_H
