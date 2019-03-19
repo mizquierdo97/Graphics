@@ -1,5 +1,5 @@
 #include "inspectorwidget.h"
-#include "inspector.h"
+#include "transformwidget.h"
 #include <QSpacerItem>
 #include <QVBoxLayout>
 #include <QLayout>

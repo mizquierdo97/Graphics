@@ -26,7 +26,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    inspector.cpp \
     openglwidget.cpp \
     inspectorwidget.cpp \
     customwidget.cpp \
@@ -34,11 +33,11 @@ SOURCES += \
     component.cpp \
     hierarchy.cpp \
     componenttransform.cpp \
-    componentrender.cpp
+    componentrender.cpp \
+    transformwidget.cpp
 
 HEADERS += \
         mainwindow.h \
-    inspector.h \
     openglwidget.h \
     inspectorwidget.h \
     customwidget.h \
@@ -46,13 +45,14 @@ HEADERS += \
     component.h \
     hierarchy.h \
     componenttransform.h \
-    componentrender.h
+    componentrender.h \
+    transformwidget.h
 
 FORMS += \
         mainwindow.ui \
     rendering.ui \
-    inspector.ui \
-    hierarchy.ui
+    hierarchy.ui \
+    transformwidget.ui
 
 #Adds openGL library
 QT += opengl

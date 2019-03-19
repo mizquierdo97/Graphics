@@ -1,4 +1,4 @@
-#include "inspector.h"
+#include "transformwidget.h"
 #include "ui_inspector.h"
 
 Inspector::Inspector(QWidget *parent) :

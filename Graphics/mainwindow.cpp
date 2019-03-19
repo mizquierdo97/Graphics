@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "ui_rendering.h"
-#include "inspector.h"
+#include "transformwidget.h"
 #include "inspectorwidget.h"
 #include <iostream>
 #include "hierarchy.h"
