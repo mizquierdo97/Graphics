@@ -6,16 +6,14 @@
 
 InspectorWidget::InspectorWidget(QWidget *parent) : QWidget(parent)
 {
-   /* //setStyleSheet(QString("background-color: rgb(0,0,0);"));
-    Inspector *transformWidget = new Inspector;
+
+    transformWidget = new TransformWidget(this);
     QSpacerItem* spacer = new QSpacerItem(1,1, QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     QVBoxLayout* layout = new QVBoxLayout;
 
-    layout->addWidget(transformWidget);    
-    //layout->addItem(spacer);
-
-    setLayout(layout);*/
+    layout->addWidget(transformWidget);
+    setLayout(layout);
 }
 
 InspectorWidget::~InspectorWidget()
@@ -23,14 +21,9 @@ InspectorWidget::~InspectorWidget()
 
 }
 
-void InspectorWidget::UpdateInspector(Object *selectedObject)
+void InspectorWidget::UpdateInspector(Object *selected)
 {
-    //setStyleSheet(QString("background-color: rgb(0,0,0);"));
-       TransformWidget *transformWidget = new TransformWidget;
-       QSpacerItem* spacer = new QSpacerItem(1,1, QSizePolicy::Expanding, QSizePolicy::Expanding);
+    selectedObject = selected;
+    transformWidget->Update(selectedObject);
 
-       QVBoxLayout* layout = new QVBoxLayout;
-
-       layout->addWidget(transformWidget);
-       setLayout(layout);
 }

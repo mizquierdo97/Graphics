@@ -1,6 +1,6 @@
 #include "componenttransform.h"
 
-componentTransform::componentTransform(QWidget *parent) :
+ComponentTransform::ComponentTransform(QWidget *parent) :
     Component(parent)
 {
     componentType = 0;

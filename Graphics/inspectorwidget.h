@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "object.h"
+#include "transformWidget.h"
 class InspectorWidget : public QWidget
 {
     Q_OBJECT
@@ -14,6 +15,9 @@ signals:
 
 public slots:
 
+public:
+    Object* selectedObject = nullptr;
+     TransformWidget *transformWidget = nullptr;
 };
 
 #endif // INSPECTORWIDGET_H

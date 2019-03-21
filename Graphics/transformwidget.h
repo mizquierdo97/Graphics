@@ -3,6 +3,7 @@
 
 #include <QWidget>
 
+class Object;
 namespace Ui {
 class Inspector;
 }
@@ -18,9 +19,10 @@ public:
 private:
     Ui::Inspector *ui;
 public slots:
+    void Update(Object* selected);
     void UpdateX(double newX);
-    //void UpdateY(double newY);
-    //void UpdateZ(double newZ);
+    void UpdateY(double newY);
+    void UpdateZ(double newZ);
 };
 
 #endif // INSPECTOR_H

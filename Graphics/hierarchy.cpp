@@ -27,6 +27,7 @@ Hierarchy::~Hierarchy()
 void Hierarchy::addObject()
 {
     Object* newObject = new Object();
+    newObject->name = "NewObject";
     objectList.push_back(newObject);
     ui->HierarchyList->addItem("VIVA WILLYREX");
     if(objectList.size() == 1)

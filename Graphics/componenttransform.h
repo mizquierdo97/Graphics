@@ -9,10 +9,10 @@ namespace Ui {
 class Inspector;
 }
 
-class componentTransform : public Component
+class ComponentTransform : public Component
 {
 public:
-    explicit componentTransform(QWidget *parent = nullptr);
+    explicit ComponentTransform(QWidget *parent = nullptr);
     QVector3D pos;
     QVector3D rot;
     QVector3D scale;
