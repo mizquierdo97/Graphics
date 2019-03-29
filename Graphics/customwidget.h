@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QWidget>
 
+class Hierarchy;
+
 class CustomWidget : public QWidget
 {
     Q_OBJECT
@@ -20,6 +22,8 @@ public slots:
 
 private:
     void paintEvent(QPaintEvent* event) override;
+public:
+    Hierarchy* hierarchyRef = nullptr;
 };
 
 #endif // CUSTOMWIDGET_H

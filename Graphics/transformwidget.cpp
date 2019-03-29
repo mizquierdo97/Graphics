@@ -1,5 +1,5 @@
 #include "transformwidget.h"
-#include "ui_inspector.h"
+#include "ui_transformwidget.h"
 #include "inspectorwidget.h"
 #include "componenttransform.h"
 #include "object.h"
@@ -9,10 +9,9 @@ TransformWidget::TransformWidget(QWidget *parent) :
     ui(new Ui::Inspector)
 {
     ui->setupUi(this);
-    connect(ui->doubleSpinBox_2, SIGNAL(valueChanged(double)), this, SLOT(UpdateX(double)));
-    connect(ui->doubleSpinBox_3, SIGNAL(valueChanged(double)), this, SLOT(UpdateY(double)));
-    connect(ui->doubleSpinBox, SIGNAL(valueChanged(double)), this, SLOT(UpdateZ(double)));
-    //valuechanged();
+    connect(ui->PosX, SIGNAL(valueChanged(double)), this, SLOT(UpdateX(double)));
+    connect(ui->PosY, SIGNAL(valueChanged(double)), this, SLOT(UpdateY(double)));
+    connect(ui->PosZ, SIGNAL(valueChanged(double)), this, SLOT(UpdateZ(double)));
 }
 
 TransformWidget::~TransformWidget()
@@ -24,9 +23,9 @@ void TransformWidget::Update(Object *selected)
 {
     ComponentTransform* trans = selected->GetComponentTransform();
     QVector3D position = trans->pos;
-    ui->doubleSpinBox_2->setValue(position.x());
-    ui->doubleSpinBox_3->setValue(position.y());
-    ui->doubleSpinBox->setValue(position.z());
+    ui->PosX->setValue(position.x());
+    ui->PosY->setValue(position.y());
+    ui->PosZ->setValue(position.z());
     //UpdateX(position.x());
     //UpdateY(position.y());
     //UpdateZ(position.z());

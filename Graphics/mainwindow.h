@@ -26,6 +26,8 @@ public slots:
     void openProject();
     void saveProject();
 
+    void CreateHierarchyWidget();
+    Hierarchy* getHierarchyWidget();
 public:
     InspectorWidget *inspectorWidget;
 private:

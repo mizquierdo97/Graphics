@@ -8,7 +8,9 @@
 class ComponentRender : public Component
 {
 public:
-    explicit ComponentRender(QWidget *parent = nullptr);
+    explicit ComponentRender(Object* _parentObject, QWidget *parent = nullptr);
+
+    void Render(QPainter* painter);
 public:
     int shape = 0;
     QColor fillColor;

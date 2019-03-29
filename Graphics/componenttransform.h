@@ -12,7 +12,7 @@ class Inspector;
 class ComponentTransform : public Component
 {
 public:
-    explicit ComponentTransform(QWidget *parent = nullptr);
+    explicit ComponentTransform(Object* _parentObject, QWidget *parent = nullptr);
     QVector3D pos;
     QVector3D rot;
     QVector3D scale;

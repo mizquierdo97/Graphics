@@ -1,13 +1,13 @@
 #include "object.h"
 #include "componentrender.h"
 #include "componenttransform.h"
-
+#include "customwidget.h"
 Object::Object(QWidget *parent) : QWidget(parent)
 {
-    ComponentTransform* compTransform = new ComponentTransform();
+    ComponentTransform* compTransform = new ComponentTransform(this);
     components.push_back(compTransform);
 
-    ComponentRender* compRender = new ComponentRender();
+    ComponentRender* compRender = new ComponentRender(this);
     components.push_back(compRender);
 }
 
@@ -31,4 +31,10 @@ ComponentRender *Object::GetComponentRender()
             return dynamic_cast<ComponentRender*>(components[i]);
         }
     }
+}
+
+void Object::Render(QPainter* painter)
+{
+    ComponentRender* rend = GetComponentRender();
+    rend->Render(painter);
 }

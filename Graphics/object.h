@@ -6,7 +6,7 @@
 class Component;
 class ComponentTransform;
 class ComponentRender;
-
+class CustomWidget;
 class Object : public QWidget
 {
     Q_OBJECT
@@ -14,6 +14,8 @@ public:
     explicit Object(QWidget *parent = nullptr);
     ComponentTransform* GetComponentTransform();
     ComponentRender* GetComponentRender();
+
+    void Render(QPainter* painter);
 signals:
 
 public slots:

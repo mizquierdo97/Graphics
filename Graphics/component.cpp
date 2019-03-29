@@ -1,6 +1,6 @@
 #include "component.h"
 
-Component::Component(QWidget *parent) : QWidget(parent)
-{
-
+Component::Component(Object* _parentObject, QWidget *parent) : QWidget(parent)
+{    
+    parentObject = _parentObject;
 }
