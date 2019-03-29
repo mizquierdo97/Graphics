@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "object.h"
 #include "transformWidget.h"
+#include "renderwidget.h"
 class InspectorWidget : public QWidget
 {
     Q_OBJECT
@@ -17,7 +18,8 @@ public slots:
 
 public:
     Object* selectedObject = nullptr;
-     TransformWidget *transformWidget = nullptr;
+    TransformWidget *transformWidget = nullptr;
+    RenderWidget* renderWidget = nullptr;
 };
 
 #endif // INSPECTORWIDGET_H

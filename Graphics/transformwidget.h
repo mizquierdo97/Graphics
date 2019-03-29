@@ -23,6 +23,12 @@ public slots:
     void UpdateX(double newX);
     void UpdateY(double newY);
     void UpdateZ(double newZ);
+    void UpdateRotX(double newX);
+    void UpdateRotY(double newY);
+    void UpdateRotZ(double newZ);
+    void UpdateScaleX(double newX);
+    void UpdateScaleY(double newY);
+    void UpdateScaleZ(double newZ);
 };
 
 #endif // INSPECTOR_H

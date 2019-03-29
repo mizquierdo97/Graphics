@@ -14,8 +14,8 @@ public:
 public:
     int shape = 0;
     QColor fillColor;
-    QColor strokeObject;
-    float strokeThickness;
+    QColor strokeColor;
+    double strokeThickness;
     Qt::PenStyle lineStyle = Qt::PenStyle::SolidLine;
 };
 

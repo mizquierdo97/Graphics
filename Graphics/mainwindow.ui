@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>834</width>
-    <height>598</height>
+    <width>1600</width>
+    <height>1024</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="CustomWidget" name="widget" native="true"/>
+     <widget class="SceneWidget" name="widget" native="true"/>
     </item>
    </layout>
   </widget>
@@ -25,7 +25,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>834</width>
+     <width>1600</width>
      <height>21</height>
     </rect>
    </property>
@@ -51,7 +51,7 @@
   <widget class="QDockWidget" name="Inspector">
    <property name="minimumSize">
     <size>
-     <width>200</width>
+     <width>400</width>
      <height>38</height>
     </size>
    </property>
@@ -122,9 +122,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>CustomWidget</class>
+   <class>SceneWidget</class>
    <extends>QWidget</extends>
-   <header location="global">customwidget.h</header>
+   <header>scenewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

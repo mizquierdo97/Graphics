@@ -25,12 +25,13 @@ public slots:
 
 public:
     MainWindow* parentWidget = nullptr;
+    Object* selectedObject = nullptr;
 private:
     Ui::Hierarchy *ui;
 
     QList<Object*> objectList;
-    Object* selectedObject = nullptr;
 
 };
 
+extern Hierarchy* hierarchy;
 #endif // HIERARCHY_H

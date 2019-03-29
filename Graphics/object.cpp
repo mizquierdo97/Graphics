@@ -1,7 +1,7 @@
 #include "object.h"
 #include "componentrender.h"
 #include "componenttransform.h"
-#include "customwidget.h"
+#include "scenewidget.h"
 Object::Object(QWidget *parent) : QWidget(parent)
 {
     ComponentTransform* compTransform = new ComponentTransform(this);

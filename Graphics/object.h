@@ -6,7 +6,7 @@
 class Component;
 class ComponentTransform;
 class ComponentRender;
-class CustomWidget;
+class SceneWidget;
 class Object : public QWidget
 {
     Q_OBJECT

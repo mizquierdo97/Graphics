@@ -28,31 +28,34 @@ SOURCES += \
         mainwindow.cpp \
     openglwidget.cpp \
     inspectorwidget.cpp \
-    customwidget.cpp \
     object.cpp \
     component.cpp \
     hierarchy.cpp \
     componenttransform.cpp \
     componentrender.cpp \
-    transformwidget.cpp
+    transformwidget.cpp \
+    renderwidget.cpp \
+    scenewidget.cpp
 
 HEADERS += \
         mainwindow.h \
     openglwidget.h \
     inspectorwidget.h \
-    customwidget.h \
     object.h \
     component.h \
     hierarchy.h \
     componenttransform.h \
     componentrender.h \
-    transformwidget.h
+    transformwidget.h \
+    renderwidget.h \
+    scenewidget.h
 
 FORMS += \
         mainwindow.ui \
     rendering.ui \
     hierarchy.ui \
-    transformwidget.ui
+    transformwidget.ui \
+    renderwidget.ui
 
 #Adds openGL library
 QT += opengl

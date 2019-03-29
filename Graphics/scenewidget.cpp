@@ -1,23 +1,24 @@
-#include "customwidget.h"
+#include "scenewidget.h"
 #include <QPainter>
 #include "hierarchy.h"
 
-CustomWidget::CustomWidget(QWidget * _parent) : QWidget(_parent)
+SceneWidget::SceneWidget(QWidget * _parent) : QWidget(_parent)
 {
     setAutoFillBackground(true);
+    sceneWidget = this;
 }
 
-QSize CustomWidget::sizeHint() const
+QSize SceneWidget::sizeHint() const
 {
     return QSize(256,256);
 }
 
-QSize CustomWidget::minimumSizeHint() const
+QSize SceneWidget::minimumSizeHint() const
 {
     return QSize(64,64);
 }
 
-void CustomWidget::paintEvent(QPaintEvent *event)
+void SceneWidget::paintEvent(QPaintEvent *event)
 {
     if(hierarchyRef == nullptr)
     {

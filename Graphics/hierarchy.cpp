@@ -17,6 +17,7 @@ Hierarchy::Hierarchy(QWidget *parent) :
     connect(ui->AddObject, SIGNAL(clicked()), this, SLOT(addObject()));
     connect(ui->DeleteObject, SIGNAL(clicked()), this, SLOT(deleteObject()));
     connect(ui->HierarchyList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(selectedItem(QListWidgetItem*)));
+    hierarchy = this;
 }
 
 Hierarchy::~Hierarchy()
@@ -37,23 +38,36 @@ void Hierarchy::addObject()
     Object* newObject = new Object();
     newObject->name = "NewObject";
     objectList.push_back(newObject);
-    ui->HierarchyList->addItem("VIVA WILLYREX");
+    ui->HierarchyList->addItem("Object");
     if(objectList.size() == 1)
         selectedObject = newObject;
+    sceneWidget->repaint();
 }
 
 void Hierarchy::deleteObject()
-{
-
-}
-
-void Hierarchy::selectedItem(QListWidgetItem *item)
 {
     QModelIndexList indexes = ui->HierarchyList->selectionModel()->selectedIndexes();
     if(indexes.size() <= 0) return;
 
     QModelIndex modelIndex = indexes[0];
     int index = modelIndex.row();
+
+    hierarchy->objectList.removeAt(index);
+
+    qDeleteAll(ui->HierarchyList->selectedItems());
+    sceneWidget->repaint();
+}
+
+void Hierarchy::selectedItem(QListWidgetItem *item)
+{
+    //Get Selected Index
+    QModelIndexList indexes = ui->HierarchyList->selectionModel()->selectedIndexes();
+    if(indexes.size() <= 0) return;
+
+    QModelIndex modelIndex = indexes[0];
+    int index = modelIndex.row();
     selectedObject = objectList[index];
+
+    //Update Inspector
     parentWidget->inspectorWidget->UpdateInspector(selectedObject);
 }

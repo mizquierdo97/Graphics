@@ -6,11 +6,11 @@
 
 class Hierarchy;
 
-class CustomWidget : public QWidget
+class SceneWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CustomWidget(QWidget *parent = nullptr);
+    explicit SceneWidget(QWidget *parent = nullptr);
 
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;
@@ -26,4 +26,5 @@ public:
     Hierarchy* hierarchyRef = nullptr;
 };
 
+extern SceneWidget* sceneWidget;
 #endif // CUSTOMWIDGET_H
