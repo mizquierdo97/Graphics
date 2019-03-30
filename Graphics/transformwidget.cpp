@@ -4,6 +4,7 @@
 #include "componenttransform.h"
 #include "scenewidget.h"
 #include "object.h"
+#include "hierarchy.h"
 
 TransformWidget::TransformWidget(QWidget *parent) :
     QWidget(parent),
@@ -47,64 +48,72 @@ void TransformWidget::Update(Object *selected)
 
 void TransformWidget::UpdateX(double newX)
 {   
+    if(hierarchy->selectedObject == nullptr) return;
 
-    InspectorWidget* temp = dynamic_cast<InspectorWidget*>(parent());
-    temp->selectedObject->GetComponentTransform()->pos.setX(newX);
+    hierarchy->selectedObject->GetComponentTransform()->pos.setX(newX);
     sceneWidget->repaint();
 }
 
 void TransformWidget::UpdateY(double newY)
 {
-    InspectorWidget* temp = dynamic_cast<InspectorWidget*>(parent());
-    temp->selectedObject->GetComponentTransform()->pos.setY(newY);
+    if(hierarchy->selectedObject == nullptr) return;
+
+    hierarchy->selectedObject->GetComponentTransform()->pos.setY(newY);
     sceneWidget->repaint();
 }
 
 void TransformWidget::UpdateZ(double newZ)
 {
-    InspectorWidget* temp = dynamic_cast<InspectorWidget*>(parent());
-    temp->selectedObject->GetComponentTransform()->pos.setZ(newZ);
+    if(hierarchy->selectedObject == nullptr) return;
+
+    hierarchy->selectedObject->GetComponentTransform()->pos.setZ(newZ);
     sceneWidget->repaint();
 }
 
 void TransformWidget::UpdateRotX(double newX)
 {
-    InspectorWidget* temp = dynamic_cast<InspectorWidget*>(parent());
-    temp->selectedObject->GetComponentTransform()->rot.setX(newX);
+    if(hierarchy->selectedObject == nullptr) return;
+
+    hierarchy->selectedObject->GetComponentTransform()->rot.setX(newX);
     sceneWidget->repaint();
 }
 
 void TransformWidget::UpdateRotY(double newY)
 {
-    InspectorWidget* temp = dynamic_cast<InspectorWidget*>(parent());
-    temp->selectedObject->GetComponentTransform()->rot.setY(newY);
+    if(hierarchy->selectedObject == nullptr) return;
+
+    hierarchy->selectedObject->GetComponentTransform()->rot.setY(newY);
     sceneWidget->repaint();
 }
 
 void TransformWidget::UpdateRotZ(double newZ)
 {
-    InspectorWidget* temp = dynamic_cast<InspectorWidget*>(parent());
-    temp->selectedObject->GetComponentTransform()->rot.setZ(newZ);
+    if(hierarchy->selectedObject == nullptr) return;
+
+    hierarchy->selectedObject->GetComponentTransform()->rot.setZ(newZ);
     sceneWidget->repaint();
 }
 
 void TransformWidget::UpdateScaleX(double newX)
 {
-    InspectorWidget* temp = dynamic_cast<InspectorWidget*>(parent());
-    temp->selectedObject->GetComponentTransform()->scale.setX(newX);
+    if(hierarchy->selectedObject == nullptr) return;
+
+    hierarchy->selectedObject->GetComponentTransform()->scale.setX(newX);
     sceneWidget->repaint();
 }
 
 void TransformWidget::UpdateScaleY(double newY)
 {
-    InspectorWidget* temp = dynamic_cast<InspectorWidget*>(parent());
-    temp->selectedObject->GetComponentTransform()->scale.setY(newY);
+    if(hierarchy->selectedObject == nullptr) return;
+
+    hierarchy->selectedObject->GetComponentTransform()->scale.setY(newY);
     sceneWidget->repaint();
 }
 
 void TransformWidget::UpdateScaleZ(double newZ)
 {
-    InspectorWidget* temp = dynamic_cast<InspectorWidget*>(parent());
-    temp->selectedObject->GetComponentTransform()->scale.setZ(newZ);
+    if(hierarchy->selectedObject == nullptr) return;
+
+    hierarchy->selectedObject->GetComponentTransform()->scale.setZ(newZ);
     sceneWidget->repaint();
 }

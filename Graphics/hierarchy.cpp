@@ -36,11 +36,16 @@ void Hierarchy::RenderObjects(QPainter* painter)
 void Hierarchy::addObject()
 {
     Object* newObject = new Object();
-    newObject->name = "NewObject";
+    QString name = "Object_";
+    name += QString::number(objectList.size());
+    newObject->name = name;
     objectList.push_back(newObject);
-    ui->HierarchyList->addItem("Object");
+    ui->HierarchyList->addItem(name);
     if(objectList.size() == 1)
+    {
         selectedObject = newObject;
+        parentWidget->inspectorWidget->UpdateInspector(selectedObject);
+    }
     sceneWidget->repaint();
 }
 

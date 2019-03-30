@@ -59,6 +59,12 @@
     </item>
     <item>
      <widget class="QDoubleSpinBox" name="PosZ">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="readOnly">
+       <bool>false</bool>
+      </property>
       <property name="maximum">
        <double>999.000000000000000</double>
       </property>
@@ -92,6 +98,9 @@
     </item>
     <item>
      <widget class="QDoubleSpinBox" name="RotY">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="maximum">
        <double>999.000000000000000</double>
       </property>
@@ -99,6 +108,9 @@
     </item>
     <item>
      <widget class="QDoubleSpinBox" name="RotZ">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="maximum">
        <double>999.000000000000000</double>
       </property>
@@ -139,6 +151,9 @@
     </item>
     <item>
      <widget class="QDoubleSpinBox" name="ScaleZ">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="maximum">
        <double>999.000000000000000</double>
       </property>

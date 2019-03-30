@@ -40,6 +40,8 @@ void RenderWidget::Update()
 
 void RenderWidget::on_FillButton_clicked()
 {
+    if(hierarchy->selectedObject == nullptr) return;
+
     QColor color = QColorDialog::getColor(Qt::white,this);
     ComponentRender* rend = hierarchy->selectedObject->GetComponentRender();
     if(color.isValid())
@@ -49,6 +51,8 @@ void RenderWidget::on_FillButton_clicked()
 
 void RenderWidget::on_StrokeButton_clicked()
 {
+    if(hierarchy->selectedObject == nullptr) return;
+
     QColor color = QColorDialog::getColor(Qt::white,this);
     ComponentRender* rend = hierarchy->selectedObject->GetComponentRender();
     if(color.isValid())
@@ -58,6 +62,8 @@ void RenderWidget::on_StrokeButton_clicked()
 
 void RenderWidget::on_Shape_currentIndexChanged(int index)
 {
+    if(hierarchy->selectedObject == nullptr) return;
+
     ComponentRender* rend = hierarchy->selectedObject->GetComponentRender();
     rend->shape = index;
     sceneWidget->repaint();
@@ -65,6 +71,8 @@ void RenderWidget::on_Shape_currentIndexChanged(int index)
 
 void RenderWidget::on_LineStyle_currentIndexChanged(int index)
 {
+    if(hierarchy->selectedObject == nullptr) return;
+
     ComponentRender* rend = hierarchy->selectedObject->GetComponentRender();
     switch(index)
     {
@@ -83,6 +91,8 @@ void RenderWidget::on_LineStyle_currentIndexChanged(int index)
 
 void RenderWidget::on_StrokeThickness_valueChanged(double arg1)
 {
+    if(hierarchy->selectedObject == nullptr) return;
+
     ComponentRender* rend = hierarchy->selectedObject->GetComponentRender();
     rend->strokeThickness = arg1;
     sceneWidget->repaint();

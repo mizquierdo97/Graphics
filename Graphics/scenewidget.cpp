@@ -25,22 +25,23 @@ void SceneWidget::paintEvent(QPaintEvent *event)
          MainWindow* mainWindowRef = dynamic_cast<MainWindow*>( parent()->parent());
         hierarchyRef = mainWindowRef->getHierarchyWidget();
     }
-    QColor blueColor = QColor::fromRgb(127,190,220);
+
     QColor whiteColor = QColor::fromRgb(255,255,255);
     QColor blackColor = QColor::fromRgb(0,0,0);
 
 
     QPainter painter(this);
     QBrush brush;
-       QPen pen;
+    QPen pen;
 
-       brush.setColor(blueColor);
-       brush.setStyle(Qt::BrushStyle::SolidPattern);
-       pen.setStyle(Qt::PenStyle::NoPen);
-       painter.setBrush(brush);
-       painter.setPen(pen);
+    //PaintBackground
+    brush.setColor(whiteColor);
+    brush.setStyle(Qt::BrushStyle::SolidPattern);
+    pen.setStyle(Qt::PenStyle::NoPen);
+    painter.setBrush(brush);
+    painter.setPen(pen);
 
-       painter.drawRect(rect());
+    painter.drawRect(rect());
 
     hierarchyRef->RenderObjects(&painter);
 
