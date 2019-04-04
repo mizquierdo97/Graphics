@@ -35,7 +35,10 @@ SOURCES += \
     componentrender.cpp \
     transformwidget.cpp \
     renderwidget.cpp \
-    scenewidget.cpp
+    scenewidget.cpp \
+    mesh.cpp \
+    submesh.cpp \
+    vertexformat.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -48,7 +51,10 @@ HEADERS += \
     componentrender.h \
     transformwidget.h \
     renderwidget.h \
-    scenewidget.h
+    scenewidget.h \
+    mesh.h \
+    submesh.h \
+    vertexformat.h
 
 FORMS += \
         mainwindow.ui \
@@ -68,3 +74,11 @@ LIBS += -lopengl32
 RESOURCES += \
 icons.qrc \
     icons.qrc
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/ThirdParty/Assimp/lib/ -lassimp
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/ThirdParty/Assimp/lib/ -lassimpd
+else:unix: LIBS += -L$$PWD/ThirdParty/Assimp/lib/ -lassimp
+
+INCLUDEPATH += $$PWD/ThirdParty/Assimp/include
+DEPENDPATH += $$PWD/ThirdParty/Assimp/include

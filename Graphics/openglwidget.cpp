@@ -73,20 +73,21 @@ void OpenGlWidget::resizeGL(int width, int height)
 
 void OpenGlWidget::paintGL()
 {
-    GLenum error;
 
-    do
+    if(true)
     {
-        error = glGetError();
-        if(error != GL_NO_ERROR)
-        {
-
-        }
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
+        glDepthMask(GL_TRUE);
     }
-    while (error != GL_NO_ERROR && error != GL_CONTEXT_LOST);
-
+    else
+    {
+        glDisable(GL_FALSE);
+    }
+    glClearDepth(1.0f);
      glClearColor(1.0f,0.0f,0.0f,1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     if(program.bind())
     {
         vao.bind();
