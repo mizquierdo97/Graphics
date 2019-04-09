@@ -74,6 +74,13 @@ void OpenGlWidget::resizeGL(int width, int height)
 void OpenGlWidget::paintGL()
 {
 
+    if(hierarchyRef == nullptr)
+    {
+        MainWindow* mainWindowRef = dynamic_cast<MainWindow*>( parent()->parent());
+        hierarchyRef = mainWindowRef->getHierarchyWidget();
+    }
+
+    hierarchyRef->RenderObjects();
     if(true)
     {
         glEnable(GL_DEPTH_TEST);

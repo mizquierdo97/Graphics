@@ -1,16 +1,21 @@
 #ifndef COMPONENTMESH_H
 #define COMPONENTMESH_H
 
-
-class ComponentMesh : public QQuickItem
+#include "component.h"
+#include "mesh.h"
+class ComponentMesh : public Component
 {
     Q_OBJECT
 public:
-    ComponentMesh();
+    explicit ComponentMesh(Object* _parentObject, QWidget *parent = nullptr);
 
+    void Render();
 signals:
 
 public slots:
+
+public:
+    Mesh* mesh = nullptr;
 };
 
 #endif // COMPONENTMESH_H
