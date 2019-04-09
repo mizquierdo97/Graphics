@@ -38,7 +38,8 @@ SOURCES += \
     scenewidget.cpp \
     mesh.cpp \
     submesh.cpp \
-    vertexformat.cpp
+    vertexformat.cpp \
+    componentmesh.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -54,7 +55,8 @@ HEADERS += \
     scenewidget.h \
     mesh.h \
     submesh.h \
-    vertexformat.h
+    vertexformat.h \
+    componentmesh.h
 
 FORMS += \
         mainwindow.ui \
