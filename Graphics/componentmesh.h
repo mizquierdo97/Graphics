@@ -7,6 +7,7 @@
 #include <QPainter>
 #include <QWidget>
 
+class Mesh;
 class ComponentMesh : public Component
 {
     Q_OBJECT

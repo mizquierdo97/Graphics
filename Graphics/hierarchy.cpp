@@ -46,7 +46,6 @@ void Hierarchy::addObject()
         selectedObject = newObject;
         parentWidget->inspectorWidget->UpdateInspector(selectedObject);
     }
-    sceneWidget->repaint();
 }
 
 void Hierarchy::deleteObject()
@@ -60,7 +59,6 @@ void Hierarchy::deleteObject()
     hierarchy->objectList.removeAt(index);
 
     qDeleteAll(ui->HierarchyList->selectedItems());
-    sceneWidget->repaint();
 }
 
 void Hierarchy::selectedItem(QListWidgetItem *item)

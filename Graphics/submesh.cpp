@@ -8,7 +8,15 @@ SubMesh::SubMesh(VertexFormat vertexFormat, void* data, int size)
 
 SubMesh::SubMesh(VertexFormat vertexFormat, void *data, int size, unsigned int *indices, int indices_count)
 {
-
+    this->vertexFormat = vertexFormat;
+        //this->data = static_cast<unsigned char*>(data);
+        this->data = new unsigned char[size];
+        std::memcpy(this->data, data, size);
+        this->dataSize = size;
+        this->indicesCount = indices_count;
+        this->indices = new unsigned int[indices_count];
+        std::memcpy(this->indices, indices, indices_count * sizeof(unsigned int));
+        glfuncs = QOpenGLContext::currentContext()->functions();
 }
 
 void SubMesh::Update()

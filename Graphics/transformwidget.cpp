@@ -43,7 +43,7 @@ void TransformWidget::Update(Object *selected)
     ui->ScaleY->setValue(scale.y());
     ui->ScaleZ->setValue(scale.z());
 
-    sceneWidget->repaint();
+
 }
 
 void TransformWidget::UpdateX(double newX)
@@ -51,7 +51,7 @@ void TransformWidget::UpdateX(double newX)
     if(hierarchy->selectedObject == nullptr) return;
 
     hierarchy->selectedObject->GetComponentTransform()->pos.setX(newX);
-    sceneWidget->repaint();
+
 }
 
 void TransformWidget::UpdateY(double newY)
@@ -59,7 +59,7 @@ void TransformWidget::UpdateY(double newY)
     if(hierarchy->selectedObject == nullptr) return;
 
     hierarchy->selectedObject->GetComponentTransform()->pos.setY(newY);
-    sceneWidget->repaint();
+
 }
 
 void TransformWidget::UpdateZ(double newZ)
@@ -67,7 +67,7 @@ void TransformWidget::UpdateZ(double newZ)
     if(hierarchy->selectedObject == nullptr) return;
 
     hierarchy->selectedObject->GetComponentTransform()->pos.setZ(newZ);
-    sceneWidget->repaint();
+
 }
 
 void TransformWidget::UpdateRotX(double newX)
@@ -75,7 +75,7 @@ void TransformWidget::UpdateRotX(double newX)
     if(hierarchy->selectedObject == nullptr) return;
 
     hierarchy->selectedObject->GetComponentTransform()->rot.setX(newX);
-    sceneWidget->repaint();
+
 }
 
 void TransformWidget::UpdateRotY(double newY)
@@ -83,7 +83,6 @@ void TransformWidget::UpdateRotY(double newY)
     if(hierarchy->selectedObject == nullptr) return;
 
     hierarchy->selectedObject->GetComponentTransform()->rot.setY(newY);
-    sceneWidget->repaint();
 }
 
 void TransformWidget::UpdateRotZ(double newZ)
@@ -91,7 +90,6 @@ void TransformWidget::UpdateRotZ(double newZ)
     if(hierarchy->selectedObject == nullptr) return;
 
     hierarchy->selectedObject->GetComponentTransform()->rot.setZ(newZ);
-    sceneWidget->repaint();
 }
 
 void TransformWidget::UpdateScaleX(double newX)
@@ -99,7 +97,6 @@ void TransformWidget::UpdateScaleX(double newX)
     if(hierarchy->selectedObject == nullptr) return;
 
     hierarchy->selectedObject->GetComponentTransform()->scale.setX(newX);
-    sceneWidget->repaint();
 }
 
 void TransformWidget::UpdateScaleY(double newY)
@@ -107,7 +104,6 @@ void TransformWidget::UpdateScaleY(double newY)
     if(hierarchy->selectedObject == nullptr) return;
 
     hierarchy->selectedObject->GetComponentTransform()->scale.setY(newY);
-    sceneWidget->repaint();
 }
 
 void TransformWidget::UpdateScaleZ(double newZ)
@@ -115,5 +111,4 @@ void TransformWidget::UpdateScaleZ(double newZ)
     if(hierarchy->selectedObject == nullptr) return;
 
     hierarchy->selectedObject->GetComponentTransform()->scale.setZ(newZ);
-    sceneWidget->repaint();
 }

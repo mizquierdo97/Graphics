@@ -101,10 +101,10 @@ void OpenGlWidget::paintGL()
     {
 
         hierarchyRef->RenderObjects();
-        vao.bind();
+        /*vao.bind();
         glDrawArrays(GL_TRIANGLES, 0,3);
         vao.release();
-        program.release();
+        program.release();*/
     }
 }
 

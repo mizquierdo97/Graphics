@@ -8,8 +8,9 @@ Object::Object(QWidget *parent) : QWidget(parent)
     ComponentTransform* compTransform = new ComponentTransform(this);
     components.push_back(compTransform);
 
-    ComponentRender* compRender = new ComponentRender(this);
-    components.push_back(compRender);
+    ComponentMesh* compMesh = new ComponentMesh(this);
+    components.push_back(compMesh);
+    compMesh->mesh->loadModel("./models/Patrick.obj");
 }
 
 ComponentTransform *Object::GetComponentTransform()
@@ -36,6 +37,7 @@ ComponentMesh *Object::GetComponentMesh()
 
 void Object::Render()
 {
-    ComponentMesh* mesh = GetComponentMesh();
-    mesh->Render();
+    ComponentMesh* compMesh = GetComponentMesh();
+    if(compMesh != nullptr)
+        compMesh->Render();
 }
