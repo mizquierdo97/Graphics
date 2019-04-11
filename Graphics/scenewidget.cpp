@@ -43,6 +43,5 @@ void SceneWidget::paintEvent(QPaintEvent *event)
 
     painter.drawRect(rect());
 
-    hierarchyRef->RenderObjects(&painter);
 
 }

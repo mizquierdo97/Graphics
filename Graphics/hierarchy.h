@@ -17,7 +17,7 @@ public:
     explicit Hierarchy(QWidget *parent = 0);
     ~Hierarchy();
 
-    void RenderObjects(QPainter* painter);
+    void RenderObjects();
 public slots:
     void addObject();
     void deleteObject();

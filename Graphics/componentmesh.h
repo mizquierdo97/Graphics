@@ -3,6 +3,10 @@
 
 #include "component.h"
 #include "mesh.h"
+#include <QObject>
+#include <QPainter>
+#include <QWidget>
+
 class ComponentMesh : public Component
 {
     Q_OBJECT

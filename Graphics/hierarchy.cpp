@@ -25,11 +25,11 @@ Hierarchy::~Hierarchy()
     delete ui;
 }
 
-void Hierarchy::RenderObjects(QPainter* painter)
+void Hierarchy::RenderObjects()
 {
     for(int i = 0; i < objectList.size(); i++)
     {
-        objectList[i]->Render(painter);
+        objectList[i]->Render();
     }
 }
 

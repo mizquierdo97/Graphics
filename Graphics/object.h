@@ -6,16 +6,18 @@
 class Component;
 class ComponentTransform;
 class ComponentRender;
+class ComponentMesh;
 class SceneWidget;
+
 class Object : public QWidget
 {
     Q_OBJECT
 public:
     explicit Object(QWidget *parent = nullptr);
     ComponentTransform* GetComponentTransform();
-    ComponentRender* GetComponentRender();
+    ComponentMesh* GetComponentMesh();
 
-    void Render(QPainter* painter);
+    void Render();
 signals:
 
 public slots:

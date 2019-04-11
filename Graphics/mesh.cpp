@@ -41,6 +41,14 @@ void Mesh::loadModel(const char *filename)
 
 }
 
+void Mesh::Render()
+{
+       for(unsigned int i = 0; i < submeshes.size(); i++)
+       {
+           submeshes[i]->Draw();
+       }
+}
+
 void Mesh::processNode(aiNode *node, const aiScene *scene)
 {
     for(unsigned int i = 0; i < node->mNumMeshes; i++)

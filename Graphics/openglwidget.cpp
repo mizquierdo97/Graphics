@@ -37,6 +37,16 @@ void OpenGlWidget::initializeGL()
     program.link();
     program.bind();
 
+
+
+
+    vao.create();
+    vao.bind();
+    const GLint compCount = 3;
+    const int strideBytes = 2 * sizeof(QVector3D);
+    const int offsetBytes0 = 0;
+    const int offsetBytes1 = sizeof(QVector3D);
+
     //VBO
     QVector3D vertices[] = {
         QVector3D(-0.5, -0.5, 0.0f), QVector3D(1.0f, 0.0f, 0.0f),
@@ -48,22 +58,14 @@ void OpenGlWidget::initializeGL()
     vbo.setUsagePattern(QOpenGLBuffer::UsagePattern::StaticDraw);
     vbo.allocate(vertices, 6 * sizeof (QVector3D));
 
-
-    vao.create();
-    vao.bind();
-    const GLint compCount = 3;
-    const int strideBytes = 2 * sizeof(QVector3D);
-    const int offsetBytes0 = 0;
-    const int offsetBytes1 = sizeof(QVector3D);
-
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(0, compCount, GL_FLOAT, GL_FALSE, strideBytes, (void*)(offsetBytes0));
     glVertexAttribPointer(1, compCount, GL_FLOAT, GL_FALSE, strideBytes, (void*)(offsetBytes1));
 
-   // vao.release();
-    //vbo.release();
-    //program.release();
+    vbo.release();
+    vao.release();
+    program.release();
 }
 
 void OpenGlWidget::resizeGL(int width, int height)
@@ -80,7 +82,7 @@ void OpenGlWidget::paintGL()
         hierarchyRef = mainWindowRef->getHierarchyWidget();
     }
 
-    hierarchyRef->RenderObjects();
+   // hierarchyRef->RenderObjects();
     if(true)
     {
         glEnable(GL_DEPTH_TEST);
@@ -97,6 +99,8 @@ void OpenGlWidget::paintGL()
 
     if(program.bind())
     {
+
+        hierarchyRef->RenderObjects();
         vao.bind();
         glDrawArrays(GL_TRIANGLES, 0,3);
         vao.release();
