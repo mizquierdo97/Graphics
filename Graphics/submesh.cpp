@@ -1,22 +1,26 @@
 #include "submesh.h"
+#include<QtOpenGL>
+#include<QOpenGLFunctions_3_3_Core>
 
-
-SubMesh::SubMesh(VertexFormat vertexFormat, void* data, int size)
-{
-
-}
-
-SubMesh::SubMesh(VertexFormat vertexFormat, void *data, int size, unsigned int *indices, int indices_count)
+SubMesh::SubMesh(VertexFormat vertexFormat, void* data, int size): ibo(QOpenGLBuffer::IndexBuffer)
 {
     this->vertexFormat = vertexFormat;
-        //this->data = static_cast<unsigned char*>(data);
-        this->data = new unsigned char[size];
-        std::memcpy(this->data, data, size);
-        this->dataSize = size;
-        this->indicesCount = indices_count;
-        this->indices = new unsigned int[indices_count];
-        std::memcpy(this->indices, indices, indices_count * sizeof(unsigned int));
-        glfuncs = QOpenGLContext::currentContext()->functions();
+    this->data = static_cast<unsigned char*>(data);
+    this->dataSize = size;
+    glfuncs = QOpenGLContext::currentContext()->functions();
+}
+
+SubMesh::SubMesh(VertexFormat vertexFormat, void *data, int size, unsigned int *indices, int indices_count): ibo(QOpenGLBuffer::IndexBuffer)
+{
+    this->vertexFormat = vertexFormat;
+    //this->data = static_cast<unsigned char*>(data);
+    this->data = new unsigned char[size];
+    std::memcpy(this->data, data, size);
+    this->dataSize = size;
+    this->indicesCount = indices_count;
+    this->indices = new unsigned int[indices_count];
+    std::memcpy(this->indices, indices, indices_count * sizeof(unsigned int));
+    glfuncs = QOpenGLContext::currentContext()->functions();
 }
 
 void SubMesh::Update()
@@ -41,7 +45,7 @@ void SubMesh::Update()
         indices = nullptr;
     }
 
-    for(int location = 0; location < 10; ++ location)
+    for(int location = 0; location < 2; ++ location)
     {
         VertexAttribute &attr = vertexFormat.attribute[location];
 
@@ -65,10 +69,12 @@ void SubMesh::Update()
 
 void SubMesh::Draw()
 {
+    Update();
     int numVertices = dataSize / vertexFormat.size;
     vao.bind();
     if(indicesCount > 0)
     {
+
         glfuncs->glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, nullptr);
     }
     else
