@@ -8,6 +8,7 @@ OpenGlWidget::OpenGlWidget(QWidget* parent)
     : QOpenGLWidget(parent)
 {
     setMinimumSize(QSize(256, 256));
+    openGLWidget = this;
 }
 
 OpenGlWidget::~OpenGlWidget()
@@ -79,7 +80,7 @@ void OpenGlWidget::paintGL()
     if(hierarchyRef == nullptr)
     {
         MainWindow* mainWindowRef = dynamic_cast<MainWindow*>( parent()->parent());
-        hierarchyRef = mainWindowRef->getHierarchyWidget();
+        hierarchyRef = mainWindowRef->getHierarchyWidget();        
     }
 
    // hierarchyRef->RenderObjects();
@@ -99,8 +100,7 @@ void OpenGlWidget::paintGL()
 
     if(program.bind())
     {
-
-        hierarchyRef->RenderObjects();
+        hierarchyRef->RenderObjects(program.programId());
         /*vao.bind();
         glDrawArrays(GL_TRIANGLES, 0,3);
         vao.release();

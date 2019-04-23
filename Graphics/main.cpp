@@ -1,12 +1,14 @@
 #include "mainwindow.h"
 #include "scenewidget.h"
 #include "hierarchy.h"
+#include "openglwidget.h"
 #include <QApplication>
 #include <QSurfaceFormat>
 
 //Global pointers
 SceneWidget* sceneWidget = nullptr;
 Hierarchy* hierarchy = nullptr;
+OpenGlWidget* openGLWidget = nullptr;
 
 int main(int argc, char *argv[])
 {

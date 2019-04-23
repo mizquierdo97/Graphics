@@ -11,7 +11,7 @@
 
 class OpenGlWidget :
         public QOpenGLWidget,
-        protected QOpenGLFunctions_3_3_Core
+        public QOpenGLFunctions_3_3_Core
 {
     Q_OBJECT
 public:
@@ -35,6 +35,7 @@ public slots:
     void handleLoggedMessage(const QOpenGLDebugMessage & debugMessage);
 };
 
+extern OpenGlWidget* openGLWidget;
 
 
 #endif // OPENGLWIDGET_H

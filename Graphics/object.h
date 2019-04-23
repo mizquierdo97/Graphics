@@ -3,13 +3,21 @@
 
 #include <QWidget>
 #include <QList>
+#include <QOpenGLWidget>
+#include <QOpenGLFunctions_3_3_Core>
+#include <QOpenGLBuffer>
+#include <QOpenGLVertexArrayObject>
+#include <QOpenGLShaderProgram>
+#include <QOpenGLDebugMessage>
+
+
 class Component;
 class ComponentTransform;
 class ComponentRender;
 class ComponentMesh;
 class SceneWidget;
 
-class Object : public QWidget
+class Object : public QWidget,protected QOpenGLFunctions_3_3_Core
 {
     Q_OBJECT
 public:
@@ -17,7 +25,7 @@ public:
     ComponentTransform* GetComponentTransform();
     ComponentMesh* GetComponentMesh();
 
-    void Render();
+    void Render(int program);
 signals:
 
 public slots:

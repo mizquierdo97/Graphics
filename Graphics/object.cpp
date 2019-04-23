@@ -3,6 +3,11 @@
 #include "componenttransform.h"
 #include "componentmesh.h"
 #include "scenewidget.h"
+#include "openglwidget.h"
+#include <QOpenGLShaderProgram>
+#include <QOpenGLFunctions>
+
+
 Object::Object(QWidget *parent) : QWidget(parent)
 {
     ComponentTransform* compTransform = new ComponentTransform(this);
@@ -35,8 +40,15 @@ ComponentMesh *Object::GetComponentMesh()
     }
 }
 
-void Object::Render()
+void Object::Render(int program)
 {
+
+    ComponentTransform* compTransform = GetComponentTransform();
+    compTransform->transform.translate(compTransform->pos);
+    compTransform->transform.rotate(QQuaternion::fromEulerAngles(compTransform->rot));
+    compTransform->transform.scale(compTransform->scale);
+    int index = openGLWidget->glGetUniformLocation(1, "_Model");
+    openGLWidget->glUniformMatrix4fv(index,1, GL_FALSE, compTransform->transform.data());
     ComponentMesh* compMesh = GetComponentMesh();
     if(compMesh != nullptr)
         compMesh->Render();

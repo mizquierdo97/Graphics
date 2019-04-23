@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include "mainwindow.h"
+#include "QOpenGLShaderProgram"
+
 class Object;
 class QListWidgetItem;
 namespace Ui {
@@ -17,7 +19,7 @@ public:
     explicit Hierarchy(QWidget *parent = 0);
     ~Hierarchy();
 
-    void RenderObjects();
+    void RenderObjects(int program);
 public slots:
     void addObject();
     void deleteObject();

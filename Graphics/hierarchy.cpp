@@ -25,11 +25,11 @@ Hierarchy::~Hierarchy()
     delete ui;
 }
 
-void Hierarchy::RenderObjects()
+void Hierarchy::RenderObjects(int program)
 {
     for(int i = 0; i < objectList.size(); i++)
     {
-        objectList[i]->Render();
+        objectList[i]->Render(program);
     }
 }
 

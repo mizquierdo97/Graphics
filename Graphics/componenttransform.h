@@ -4,6 +4,7 @@
 #include "component.h"
 #include <QVector3D>
 #include <QWidget>
+#include <QMatrix4x4>
 
 namespace Ui {
 class Inspector;
@@ -17,6 +18,7 @@ public:
     QVector3D rot;
     QVector3D scale;
 
+    QMatrix4x4 transform;
 };
 
 #endif // COMPONENTTRANSFORM_H
