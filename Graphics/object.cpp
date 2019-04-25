@@ -6,7 +6,7 @@
 #include "openglwidget.h"
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
-
+#include <QMatrix4x4>
 
 Object::Object(QWidget *parent) : QWidget(parent)
 {
@@ -42,8 +42,8 @@ ComponentMesh *Object::GetComponentMesh()
 
 void Object::Render(int program)
 {
-
     ComponentTransform* compTransform = GetComponentTransform();
+    compTransform->transform.setToIdentity();
     compTransform->transform.translate(compTransform->pos);
     compTransform->transform.rotate(QQuaternion::fromEulerAngles(compTransform->rot));
     compTransform->transform.scale(compTransform->scale);

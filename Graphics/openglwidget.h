@@ -7,6 +7,7 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLDebugMessage>
+#include <QTimer>
 #include "hierarchy.h"
 
 class OpenGlWidget :
@@ -29,10 +30,12 @@ public:
     QOpenGLShaderProgram program;
 
     Hierarchy* hierarchyRef = nullptr;
+    QTimer timer;
 signals:
 public slots:
     void finalizeGL();
     void handleLoggedMessage(const QOpenGLDebugMessage & debugMessage);
+    void Update();
 };
 
 extern OpenGlWidget* openGLWidget;

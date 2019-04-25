@@ -21,6 +21,7 @@ private:
 
     unsigned char* data = nullptr;
     size_t dataSize = 0;
+    bool wantToUpdate = true;
 
 unsigned int* indices = nullptr;
     size_t indicesCount = 0;

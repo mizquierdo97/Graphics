@@ -9,6 +9,13 @@ OpenGlWidget::OpenGlWidget(QWidget* parent)
 {
     setMinimumSize(QSize(256, 256));
     openGLWidget = this;
+
+    QObject::connect(&timer, SIGNAL(timeout()), this, SLOT(Update()));
+    if(format().swapInterval() == -1)
+        timer.setInterval(16);
+    else
+        timer.setInterval(0);
+    timer.start();
 }
 
 OpenGlWidget::~OpenGlWidget()
@@ -76,6 +83,7 @@ void OpenGlWidget::resizeGL(int width, int height)
 
 void OpenGlWidget::paintGL()
 {
+    makeCurrent();
 
     if(hierarchyRef == nullptr)
     {
@@ -101,10 +109,6 @@ void OpenGlWidget::paintGL()
     if(program.bind())
     {
         hierarchyRef->RenderObjects(program.programId());
-        /*vao.bind();
-        glDrawArrays(GL_TRIANGLES, 0,3);
-        vao.release();
-        program.release();*/
     }
 }
 
@@ -116,4 +120,9 @@ void OpenGlWidget::finalizeGL()
 void OpenGlWidget::handleLoggedMessage(const QOpenGLDebugMessage &debugMessage)
 {
     std::cout << debugMessage.severity() << ": " << debugMessage.message().toStdString() << std::endl;
+}
+
+void OpenGlWidget::Update()
+{
+    update();
 }
