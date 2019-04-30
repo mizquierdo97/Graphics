@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "scenewidget.h"
 #include "hierarchy.h"
+#include "input.h"
+#include "camera.h"
 #include "openglwidget.h"
 #include <QApplication>
 #include <QSurfaceFormat>
@@ -9,6 +11,8 @@
 SceneWidget* sceneWidget = nullptr;
 Hierarchy* hierarchy = nullptr;
 OpenGlWidget* openGLWidget = nullptr;
+Input* input = nullptr;
+Camera* camera = nullptr;
 
 int main(int argc, char *argv[])
 {

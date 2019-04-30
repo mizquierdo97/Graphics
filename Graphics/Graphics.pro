@@ -40,7 +40,8 @@ SOURCES += \
     submesh.cpp \
     vertexformat.cpp \
     componentmesh.cpp \
-    camera.cpp
+    camera.cpp \
+    input.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -58,7 +59,8 @@ HEADERS += \
     submesh.h \
     vertexformat.h \
     componentmesh.h \
-    camera.h
+    camera.h \
+    input.h
 
 FORMS += \
         mainwindow.ui \

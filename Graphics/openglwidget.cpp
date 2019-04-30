@@ -1,5 +1,8 @@
 #include "openglwidget.h"
+#include "input.h"
+#include "camera.h"
 #include <QOpenGLDebugLogger>
+#include <QKeyEvent>
 #include <iostream>
 
 #pragma comment(lib, "OpenGL32.lib")
@@ -16,6 +19,7 @@ OpenGlWidget::OpenGlWidget(QWidget* parent)
     else
         timer.setInterval(0);
     timer.start();
+    setMouseTracking(true);
 }
 
 OpenGlWidget::~OpenGlWidget()
@@ -84,7 +88,7 @@ void OpenGlWidget::resizeGL(int width, int height)
 void OpenGlWidget::paintGL()
 {
     makeCurrent();
-
+    camera->Update();
     if(hierarchyRef == nullptr)
     {
         MainWindow* mainWindowRef = dynamic_cast<MainWindow*>( parent()->parent());
@@ -110,6 +114,41 @@ void OpenGlWidget::paintGL()
     {
         hierarchyRef->RenderObjects(program.programId());
     }
+}
+
+void OpenGlWidget::keyPressEvent(QKeyEvent *event)
+{
+    input->keyPressEvent(event);
+}
+
+void OpenGlWidget::keyReleaseEvent(QKeyEvent *event)
+{
+    input->keyReleaseEvent(event);
+}
+
+void OpenGlWidget::mousePressEvent(QMouseEvent *event)
+{
+    input->mousePressEvent(event);
+}
+
+void OpenGlWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    input->mouseMoveEvent(event);
+}
+
+void OpenGlWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+  input->mouseReleaseEvent(event);
+}
+
+void OpenGlWidget::enterEvent(QEvent *)
+{
+    grabKeyboard();
+}
+
+void OpenGlWidget::leaveEvent(QEvent *)
+{
+    releaseKeyboard();
 }
 
 void OpenGlWidget::finalizeGL()

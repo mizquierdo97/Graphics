@@ -3,6 +3,9 @@
 #include "ui_rendering.h"
 #include "transformwidget.h"
 #include "inspectorwidget.h"
+#include "input.h"
+#include "camera.h"
+
 #include <iostream>
 #include "hierarchy.h"
 MainWindow::MainWindow(QWidget *parent) :
@@ -15,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
     inspectorWidget = new InspectorWidget();
     ui->Inspector->setWidget(inspectorWidget);
     
+    input = new Input();
+    camera = new Camera();
     CreateHierarchyWidget();
 
 }

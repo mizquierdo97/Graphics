@@ -4,6 +4,7 @@
 #include "componentmesh.h"
 #include "scenewidget.h"
 #include "openglwidget.h"
+#include "camera.h"
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
 #include <QMatrix4x4>
@@ -47,8 +48,14 @@ void Object::Render(int program)
     compTransform->transform.translate(compTransform->pos);
     compTransform->transform.rotate(QQuaternion::fromEulerAngles(compTransform->rot));
     compTransform->transform.scale(compTransform->scale);
+
+    
     int index = openGLWidget->glGetUniformLocation(1, "_Model");
     openGLWidget->glUniformMatrix4fv(index,1, GL_FALSE, compTransform->transform.data());
+    
+    index = openGLWidget->glGetUniformLocation(1, "_View");
+    openGLWidget->glUniformMatrix4fv(index,1, GL_FALSE, camera->transform.data());
+    
     ComponentMesh* compMesh = GetComponentMesh();
     if(compMesh != nullptr)
         compMesh->Render();
