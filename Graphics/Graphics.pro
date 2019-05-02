@@ -72,6 +72,7 @@ FORMS += \
 #Adds openGL library
 QT += opengl
 QT += core
+QT += 3drender
 
 CONFIG += console
 

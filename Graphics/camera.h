@@ -22,7 +22,12 @@ public:
     QVector3D left;
     QQuaternion quat;
     QMatrix4x4 transform;
-    float speed = 5.0f;
+    QMatrix4x4 projection;
+    float speed = 1.0f;
+    float fov = 90.0f;
+    float nearPlane = 0.1f;
+    float farPlane = 300.0f;
+    float ratio = 1.0f;
 };
 extern Camera* camera;
 #endif // CAMERA_H

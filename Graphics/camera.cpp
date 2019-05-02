@@ -11,7 +11,18 @@ void Camera::Move()
     if(input->keys[Qt::Key_W] == KeyState::Down)
     {
         pos += forward * speed * 0.16666f;
-
+    }
+    if(input->keys[Qt::Key_S] == KeyState::Down)
+    {
+        pos -= forward * speed * 0.16666f;
+    }
+    if(input->keys[Qt::Key_A] == KeyState::Down)
+    {
+        pos += left * speed * 0.16666f;
+    }
+    if(input->keys[Qt::Key_D] == KeyState::Down)
+    {
+        pos -= left * speed * 0.16666f;
     }
 }
 
@@ -32,6 +43,9 @@ void Camera::Update()
 {
     Move();
     Rotate();
+
+    projection.setToIdentity();
+    projection.perspective(60, 16/9, nearPlane, farPlane);
 
     transform.setToIdentity();
     transform.translate(pos);

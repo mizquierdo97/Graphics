@@ -5,6 +5,7 @@ layout(location = 1) in vec3 color;
 
 uniform mat4x4 _Model;
 uniform mat4x4 _View;
+uniform mat4x4 _Projection;
 
 out Data
 {
@@ -13,6 +14,6 @@ out Data
 
 void main(void)
 {
-gl_Position = _View * _Model * vec4(position, 1);
+gl_Position = _Projection * _View * _Model * vec4(position, 1);
 VSOut.color = color;
 }

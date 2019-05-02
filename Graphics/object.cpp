@@ -49,8 +49,11 @@ void Object::Render(int program)
     compTransform->transform.rotate(QQuaternion::fromEulerAngles(compTransform->rot));
     compTransform->transform.scale(compTransform->scale);
 
+    int index = openGLWidget->glGetUniformLocation(1, "_Projection");
+    openGLWidget->glUniformMatrix4fv(index,1, GL_FALSE, camera->projection.data());
+    QMatrix4x4 mat = camera->projection;
     
-    int index = openGLWidget->glGetUniformLocation(1, "_Model");
+    index = openGLWidget->glGetUniformLocation(1, "_Model");
     openGLWidget->glUniformMatrix4fv(index,1, GL_FALSE, compTransform->transform.data());
     
     index = openGLWidget->glGetUniformLocation(1, "_View");
