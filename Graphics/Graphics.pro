@@ -41,7 +41,8 @@ SOURCES += \
     vertexformat.cpp \
     componentmesh.cpp \
     camera.cpp \
-    input.cpp
+    input.cpp \
+    resources.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -60,7 +61,8 @@ HEADERS += \
     vertexformat.h \
     componentmesh.h \
     camera.h \
-    input.h
+    input.h \
+    resources.h
 
 FORMS += \
         mainwindow.ui \

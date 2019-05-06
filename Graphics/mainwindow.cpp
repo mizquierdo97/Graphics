@@ -5,6 +5,7 @@
 #include "inspectorwidget.h"
 #include "input.h"
 #include "camera.h"
+#include "resources.h"
 
 #include <iostream>
 #include "hierarchy.h"
@@ -20,8 +21,9 @@ MainWindow::MainWindow(QWidget *parent) :
     
     input = new Input();
     camera = new Camera();
+    resources = new Resources();
     CreateHierarchyWidget();
-
+    resources->LoadResources(".");
 }
 
 MainWindow::~MainWindow()

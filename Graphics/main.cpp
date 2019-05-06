@@ -3,6 +3,7 @@
 #include "hierarchy.h"
 #include "input.h"
 #include "camera.h"
+#include "resources.h"
 #include "openglwidget.h"
 #include <QApplication>
 #include <QSurfaceFormat>
@@ -13,6 +14,7 @@ Hierarchy* hierarchy = nullptr;
 OpenGlWidget* openGLWidget = nullptr;
 Input* input = nullptr;
 Camera* camera = nullptr;
+Resources* resources = nullptr;
 
 int main(int argc, char *argv[])
 {
