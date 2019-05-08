@@ -25,7 +25,6 @@ SubMesh::SubMesh(VertexFormat vertexFormat, void *data, int size, unsigned int *
 
 void SubMesh::Update()
 {
-    if(!wantToUpdate) return;
     vao.create();
     vao.bind();
 
@@ -65,12 +64,12 @@ void SubMesh::Update()
     {
         ibo.release();
     }
-    wantToUpdate = false;
+
 }
 
 void SubMesh::Draw()
 {
-    Update();
+    //Update();
     int numVertices = dataSize / vertexFormat.size;
     vao.bind();
     if(indicesCount > 0)

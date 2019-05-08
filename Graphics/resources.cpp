@@ -1,4 +1,7 @@
 #include "resources.h"
+#include "mainwindow.h"
+#include "inspectorwidget.h"
+#include "ui_meshwidget.h"
 #include <QDir>
 
 Resources::Resources()
@@ -32,8 +35,10 @@ void Resources::LoadResources(QString path)
             }
             else if(type.compare("obj") == 0|| type.compare("fbx")== 0)
             {
-                int a = 0;
-                a = 1;
+                ResourceMesh* newMesh = new ResourceMesh();
+                newMesh->path = fileInfo.filePath();
+                meshResources.push_back(newMesh);
+                mainWindow->inspectorWidget->meshWidget->ui->comboBox->addItem(fileInfo.fileName());
             }
         }
 

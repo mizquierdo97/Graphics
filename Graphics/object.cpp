@@ -16,7 +16,7 @@ Object::Object(QWidget *parent) : QWidget(parent)
 
     ComponentMesh* compMesh = new ComponentMesh(this);
     components.push_back(compMesh);
-    compMesh->mesh->loadModel("./models/Patrick.obj");
+    //compMesh->mesh->loadModel("./models/Patrick.obj");
 }
 
 ComponentTransform *Object::GetComponentTransform()

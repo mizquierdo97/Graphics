@@ -9,6 +9,7 @@
 #include <QSurfaceFormat>
 
 //Global pointers
+MainWindow* mainWindow = nullptr;
 SceneWidget* sceneWidget = nullptr;
 Hierarchy* hierarchy = nullptr;
 OpenGlWidget* openGLWidget = nullptr;

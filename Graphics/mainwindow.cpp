@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow),
     uiRendering(new Ui::Rendering)
 {
+    mainWindow = this;
     ui->setupUi(this);
 
     inspectorWidget = new InspectorWidget();
@@ -23,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     camera = new Camera();
     resources = new Resources();
     CreateHierarchyWidget();
-    resources->LoadResources(".");
+    resources->LoadResources("./assets");
 }
 
 MainWindow::~MainWindow()

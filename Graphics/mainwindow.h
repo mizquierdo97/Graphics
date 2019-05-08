@@ -38,5 +38,6 @@ private:
     Hierarchy *hierarchyWidget;
     Object* selectedObject = nullptr;
 };
+extern MainWindow* mainWindow;
 
 #endif // MAINWINDOW_H

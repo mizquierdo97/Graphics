@@ -42,7 +42,11 @@ SOURCES += \
     componentmesh.cpp \
     camera.cpp \
     input.cpp \
-    resources.cpp
+    resources.cpp \
+    resourcemesh.cpp \
+    resourcetexture.cpp \
+    meshwidget.cpp \
+    resource.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -62,14 +66,19 @@ HEADERS += \
     componentmesh.h \
     camera.h \
     input.h \
-    resources.h
+    resources.h \
+    resourcemesh.h \
+    resourcetexture.h \
+    meshwidget.h \
+    resource.h
 
 FORMS += \
         mainwindow.ui \
     rendering.ui \
     hierarchy.ui \
     transformwidget.ui \
-    renderwidget.ui
+    renderwidget.ui \
+    meshwidget.ui
 
 #Adds openGL library
 QT += opengl

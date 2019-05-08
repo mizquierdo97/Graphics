@@ -1,8 +1,9 @@
 #ifndef RESOURCES_H
 #define RESOURCES_H
 
-#include <QMap>
-
+#include <QVector>
+#include "resourcemesh.h"
+#include "resourcetexture.h"
 class Resources
 {
 public:
@@ -10,8 +11,8 @@ public:
 
     void LoadResources(QString path);
 public:
-    QMap<QString, QString>  meshResources;
-    QMap<QString, QString>  textureResources;
+    QVector<ResourceMesh*>  meshResources;
+     QVector<ResourceTexture*>  textureResources;
 };
 extern Resources* resources;
 #endif // RESOURCES_H

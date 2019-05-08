@@ -1,16 +1,27 @@
 #include "componentmesh.h"
 #include "mesh.h"
-ComponentMesh::ComponentMesh(Object* _parentObject, QWidget *parent)  : Component(_parentObject, parent)
+#include "ui_componentmesh.h"
+
+ComponentMesh::ComponentMesh(Object* _parentObject, QWidget *parent)  :
+    Component(_parentObject, parent),
+    ui(new Ui::ComponentMesh)
 {
     componentType = 1;
     parentObject = _parentObject;
-    mesh = new Mesh();
+    ui->setupUi(this);
+}
+
+void ComponentMesh::UpdateWidget(Object* selectedObject)
+{
+    int objectIndex = selectedObject->GetComponentMesh()->index;
+    ui->comboBox->setCurrentIndex(objectIndex);
 }
 
 void ComponentMesh::Render()
 {
-    if(mesh != nullptr)
+    if(resourceMesh != nullptr && resourceMesh->mesh != nullptr)
     {
-        mesh->Render();
+        resourceMesh->mesh->Render();
     }
 }
+
