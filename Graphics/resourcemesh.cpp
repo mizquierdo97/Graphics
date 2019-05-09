@@ -2,7 +2,6 @@
 
 ResourceMesh::ResourceMesh()
 {
-
 }
 
 void ResourceMesh::Load()

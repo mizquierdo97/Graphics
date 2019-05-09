@@ -9,14 +9,14 @@ Mesh::Mesh()
 
 }
 
-void Mesh::loadModel(const char *filename)
+void Mesh::loadModel(const QString filename)
 {
     Assimp::Importer import;
 
     QFile file(filename);
     if(!file.open(QIODevice::ReadOnly))
     {
-        std::cout << "Could not open file for read: " << filename <<std::endl;
+
         return;
     }
 
@@ -55,6 +55,7 @@ void Mesh::processNode(aiNode *node, const aiScene *scene)
     {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
         SubMesh* subMesh = processMesh(mesh, scene);
+        //subMesh->Update();
         submeshes.push_back(subMesh);
 
     }

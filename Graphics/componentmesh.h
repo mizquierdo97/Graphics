@@ -3,7 +3,6 @@
 
 #include "component.h"
 #include "resourcemesh.h"
-#include "ui_componentmesh.h"
 #include <QObject>
 #include <QPainter>
 #include <QWidget>
@@ -18,15 +17,13 @@ class ComponentMesh : public Component
 public:
     explicit ComponentMesh(Object* _parentObject, QWidget *parent = nullptr);
 
-    void UpdateWidget(Object* selected);
     void Render();
 signals:
 
 public slots:
 
 public:
-    ResourceMesh* resourceMesh = nullptr;    
-    Ui::ComponentMesh* ui;
+    ResourceMesh* resourceMesh = nullptr;
     int index = 0;
 
 };

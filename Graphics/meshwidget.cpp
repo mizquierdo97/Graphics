@@ -28,5 +28,14 @@ void MeshWidget::on_comboBox_currentIndexChanged(int _index)
         ComponentMesh* selectedMesh = hierarchy->selectedObject->GetComponentMesh();
         selectedMesh->index = _index;
         selectedMesh->resourceMesh = resources->meshResources[_index];
+
+        if(selectedMesh->resourceMesh->numUses == 0)
+        {
+            selectedMesh->resourceMesh->numUses++;
+            if( selectedMesh->resourceMesh->mesh == nullptr)
+                 selectedMesh->resourceMesh->mesh = new Mesh();
+            QString path = selectedMesh->resourceMesh->path;
+            selectedMesh->resourceMesh->mesh->loadModel(path);
+        }
     }
 }

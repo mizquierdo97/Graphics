@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include "object.h"
+#include "resourcetexture.h"
+
 namespace Ui {
 class MeshWidget;
 }
@@ -17,6 +19,7 @@ public:
     void Update(Object* selected);
 public:
     Ui::MeshWidget *ui;
+    QVector<ResourceTexture*> meshTextures;
 private slots:
     void on_comboBox_currentIndexChanged(int index);
 };
