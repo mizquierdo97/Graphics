@@ -3,11 +3,19 @@
 #include "componentmesh.h"
 #include "hierarchy.h"
 #include "resources.h"
+
 MeshWidget::MeshWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MeshWidget)
 {
     ui->setupUi(this);
+
+    QComboBox* newComboBox = new QComboBox();
+    textureComboBox.push_back(newComboBox);
+    QComboBox* newComboBox2 = new QComboBox();
+    textureComboBox.push_back(newComboBox2);
+    ui->TexturesLayout->addWidget(newComboBox2);
+
 }
 
 MeshWidget::~MeshWidget()
@@ -17,12 +25,14 @@ MeshWidget::~MeshWidget()
 
 void MeshWidget::Update(Object *selected)
 {
-    int selectedIndex = selected->GetComponentMesh()->index;
-    ui->comboBox->setCurrentIndex(selectedIndex);
+        ComponentMesh* compMesh =  selected->GetComponentMesh();
+        int selectedIndex = compMesh->index;
+        ui->comboBox->setCurrentIndex(selectedIndex);
 }
 
 void MeshWidget::on_comboBox_currentIndexChanged(int _index)
 {
+
     if(hierarchy->selectedObject != nullptr)
     {
         ComponentMesh* selectedMesh = hierarchy->selectedObject->GetComponentMesh();
@@ -36,6 +46,23 @@ void MeshWidget::on_comboBox_currentIndexChanged(int _index)
                  selectedMesh->resourceMesh->mesh = new Mesh();
             QString path = selectedMesh->resourceMesh->path;
             selectedMesh->resourceMesh->mesh->loadModel(path);
+        }
+        if(selectedMesh->resourceMesh == nullptr || selectedMesh->resourceMesh->mesh == nullptr)
+            return;
+        Mesh* mesh = selectedMesh->resourceMesh->mesh;
+
+        for(int i = 0; i < textureComboBox.size(); i++)
+        {
+            ui->TexturesLayout->removeWidget(textureComboBox[i]);
+            delete textureComboBox[i];
+        }
+        textureComboBox.clear();
+        ui->TexturesLayout->update();
+        for(int i = 0; i < mesh->submeshes.size(); i++)
+        {
+            QComboBox* newComboBox = new QComboBox();
+            textureComboBox.push_back(newComboBox);
+            ui->TexturesLayout->addWidget(newComboBox);
         }
     }
 }
