@@ -1,7 +1,8 @@
 #include "submesh.h"
 #include<QtOpenGL>
+#include <QOpenGLFunctions>
 #include<QOpenGLFunctions_3_3_Core>
-
+#include "resources.h"
 SubMesh::SubMesh(VertexFormat vertexFormat, void* data, int size): ibo(QOpenGLBuffer::IndexBuffer)
 {
     this->vertexFormat = vertexFormat;
@@ -46,7 +47,7 @@ void SubMesh::Update()
         indices = nullptr;
     }
 
-    for(int location = 0; location < 2; ++ location)
+    for(int location = 0; location < 3; ++ location)
     {
         VertexAttribute &attr = vertexFormat.attribute[location];
 
@@ -72,10 +73,13 @@ void SubMesh::Draw()
 {
     Update();
     int numVertices = dataSize / vertexFormat.size;
+
+
+    glBindTexture(GL_TEXTURE_2D, resources->textureResources[0]->GLTexture->textureId());
+    //GLuint textureId = resources->textureResources[0]->textureID;
     vao.bind();
     if(indicesCount > 0)
     {
-
         glfuncs->glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, nullptr);
     }
     else

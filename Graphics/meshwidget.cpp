@@ -3,7 +3,7 @@
 #include "componentmesh.h"
 #include "hierarchy.h"
 #include "resources.h"
-
+#include "resourcetexture.h"
 MeshWidget::MeshWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MeshWidget)
@@ -65,4 +65,9 @@ void MeshWidget::on_comboBox_currentIndexChanged(int _index)
             ui->TexturesLayout->addWidget(newComboBox);
         }
     }
+    static int a = 0;
+    if(a != 0)
+     resources->textureResources[0]->Load();
+    a++;
 }
+

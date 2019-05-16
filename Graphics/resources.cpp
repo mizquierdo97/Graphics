@@ -31,7 +31,9 @@ void Resources::LoadResources(QString path)
 
             if(type.compare("png") == 0|| type.compare("jpg") == 0|| type.compare("tga") == 0)
             {
-
+                ResourceTexture* newTex = new ResourceTexture();
+                newTex->path = fileInfo.filePath();
+                textureResources.push_back(newTex);
             }
             else if(type.compare("obj") == 0|| type.compare("fbx")== 0)
             {
