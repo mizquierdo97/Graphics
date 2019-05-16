@@ -31,12 +31,16 @@ void Resources::LoadResources(QString path)
 
             if(type.compare("png") == 0|| type.compare("jpg") == 0|| type.compare("tga") == 0)
             {
-
+                ResourceTexture* newTexture = new ResourceTexture();
+                newTexture->path = fileInfo.filePath();
+                newTexture->name = fileInfo.fileName();
+                textureResources.push_back(newTexture);
             }
             else if(type.compare("obj") == 0|| type.compare("fbx")== 0)
             {
                 ResourceMesh* newMesh = new ResourceMesh();
                 newMesh->path = fileInfo.filePath();
+                newMesh->name = fileInfo.fileName();
                 meshResources.push_back(newMesh);
                 mainWindow->inspectorWidget->meshWidget->ui->comboBox->addItem(fileInfo.fileName());
             }

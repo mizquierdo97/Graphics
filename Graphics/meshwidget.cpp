@@ -63,6 +63,32 @@ void MeshWidget::on_comboBox_currentIndexChanged(int _index)
             QComboBox* newComboBox = new QComboBox();
             textureComboBox.push_back(newComboBox);
             ui->TexturesLayout->addWidget(newComboBox);
+            QVector<ResourceTexture*> texRes = resources->textureResources;
+            for(int i = 0; i < texRes.size(); i++)
+            {
+                newComboBox->addItem(texRes[i]->name);
+
+            }
+            QString name = "ComboBox";
+            name += QString::number(i);
+            newComboBox->setObjectName(name);
+            connect(newComboBox, SIGNAL(currentTextChanged(const QString&)), this, SLOT(onTextureComboChanged(const QString&)));
         }
     }
 }
+
+void MeshWidget::onTextureComboChanged(const QString&)
+{
+    QString name = sender()->objectName();
+    for(int i = 0; i < textureComboBox.size(); i++)
+    {
+        if(textureComboBox[i]->objectName().compare(name) == 0)
+        {
+            int a = 0;
+            a = 1;
+        }
+    }
+
+
+}
+

@@ -30,6 +30,8 @@ public slots:
     Hierarchy* getHierarchyWidget();
 public:
     InspectorWidget *inspectorWidget;
+private slots:
+
 private:
     Ui::MainWindow *ui;
     Ui::Rendering *uiRendering;

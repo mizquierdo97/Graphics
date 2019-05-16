@@ -46,7 +46,8 @@ SOURCES += \
     resourcemesh.cpp \
     resourcetexture.cpp \
     meshwidget.cpp \
-    resource.cpp
+    resource.cpp \
+    textureswidget.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -70,7 +71,8 @@ HEADERS += \
     resourcemesh.h \
     resourcetexture.h \
     meshwidget.h \
-    resource.h
+    resource.h \
+    textureswidget.h
 
 FORMS += \
         mainwindow.ui \
@@ -78,7 +80,8 @@ FORMS += \
     hierarchy.ui \
     transformwidget.ui \
     renderwidget.ui \
-    meshwidget.ui
+    meshwidget.ui \
+    textureswidget.ui
 
 #Adds openGL library
 QT += opengl

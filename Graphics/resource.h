@@ -18,6 +18,7 @@ public:
 public:
     int numUses = 0;
     QString path;
+    QString name;
     ResourceType type = NONE;
 };
 

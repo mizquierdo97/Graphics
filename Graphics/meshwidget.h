@@ -26,6 +26,9 @@ public:
     QVBoxLayout* widgetLayout = nullptr;
 private slots:
     void on_comboBox_currentIndexChanged(int index);
+public slots:
+    void onTextureComboChanged(const QString&);
 };
+
 
 #endif // MESHWIDGET_H
