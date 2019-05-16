@@ -9,6 +9,12 @@ ResourceTexture::ResourceTexture()
 
 void ResourceTexture::Load()
 {
+    if(numUses > 0)
+    {
+        numUses++;
+        return;
+    }
+    numUses++;
     QImage img;
     QImage GLimg;
     if(!img.load(path))

@@ -75,7 +75,8 @@ void SubMesh::Draw()
     int numVertices = dataSize / vertexFormat.size;
 
 
-    glBindTexture(GL_TEXTURE_2D, resources->textureResources[0]->GLTexture->textureId());
+    if(GLTexture != nullptr)
+        glBindTexture(GL_TEXTURE_2D, GLTexture->textureId());
     //GLuint textureId = resources->textureResources[0]->textureID;
     vao.bind();
     if(indicesCount > 0)

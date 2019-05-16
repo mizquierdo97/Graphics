@@ -5,6 +5,7 @@
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLFunctions>
+#include <QOpenGLTexture>
 
 class SubMesh
 {
@@ -16,6 +17,8 @@ public:
     void Update();
     void Draw();
     void Destroy();
+public:
+    QOpenGLTexture* GLTexture = nullptr;
 
 private:
 

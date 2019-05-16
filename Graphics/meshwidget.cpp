@@ -72,26 +72,28 @@ void MeshWidget::on_comboBox_currentIndexChanged(int _index)
             QString name = "ComboBox";
             name += QString::number(i);
             newComboBox->setObjectName(name);
-            connect(newComboBox, SIGNAL(currentTextChanged(const QString&)), this, SLOT(onTextureComboChanged(const QString&)));
+            connect(newComboBox, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(onTextureComboChanged(const QString&)));
         }
     }
-    static int a = 0;
-    if(a != 0)
-     resources->textureResources[0]->Load();
-    a++;
+
 }
 
-void MeshWidget::onTextureComboChanged(const QString&)
+void MeshWidget::onTextureComboChanged(const QString& stringText)
 {
     QString name = sender()->objectName();
     for(int i = 0; i < textureComboBox.size(); i++)
     {
         if(textureComboBox[i]->objectName().compare(name) == 0)
         {
-            int a = 0;
-            a = 1;
+            for(int n = 0; n < resources->textureResources.size(); n++)
+            {
+                if(resources->textureResources[n]->name.compare(stringText) == 0)
+                {
+                    resources->textureResources[n]->Load();
+                     ComponentMesh* selectedMesh = hierarchy->selectedObject->GetComponentMesh();
+                     selectedMesh->resourceMesh->mesh->submeshes[i]->GLTexture = resources->textureResources[n]->GLTexture;
+                }
+            }
         }
     }
-
-
 }
