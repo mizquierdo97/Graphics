@@ -24,6 +24,7 @@ public:
     void initializeGL() override;
     void resizeGL(int width, int height) override;
     void paintGL() override;
+    void InitializeBuffers();
 
     //INPUT
     void keyPressEvent(QKeyEvent* event) override;
@@ -34,18 +35,28 @@ public:
     void enterEvent(QEvent*) override;
     void leaveEvent(QEvent*) override;
 
-public:
-    QOpenGLBuffer vbo;
-    QOpenGLVertexArrayObject vao;
-    QOpenGLShaderProgram program;
-
-    Hierarchy* hierarchyRef = nullptr;
-    QTimer timer;
-signals:
 public slots:
     void finalizeGL();
     void handleLoggedMessage(const QOpenGLDebugMessage & debugMessage);
     void Update();
+
+public:
+    QOpenGLBuffer vbo;
+    QOpenGLVertexArrayObject vao;
+    QOpenGLShaderProgram program;
+    QOpenGLShaderProgram deferredProgram;
+
+    Hierarchy* hierarchyRef = nullptr;
+    QTimer timer;
+
+private:
+    GLuint colorTexture;
+    GLuint depthTexture;
+    GLuint normalTexture;
+    GLuint fbo;
+
+    int width = 100;
+    int height = 100;
 };
 
 extern OpenGlWidget* openGLWidget;

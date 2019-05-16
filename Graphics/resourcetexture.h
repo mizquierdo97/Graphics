@@ -11,7 +11,7 @@ public:
     ResourceTexture();
     void Load();
 public:
-    QOpenGLTexture* GLTexture;
+    QOpenGLTexture* GLTexture = nullptr;
 };
 
 #endif // RESOURCETEXTURE_H

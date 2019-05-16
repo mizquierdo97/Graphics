@@ -32,9 +32,7 @@ SOURCES += \
     component.cpp \
     hierarchy.cpp \
     componenttransform.cpp \
-    componentrender.cpp \
     transformwidget.cpp \
-    renderwidget.cpp \
     scenewidget.cpp \
     mesh.cpp \
     submesh.cpp \
@@ -57,9 +55,7 @@ HEADERS += \
     component.h \
     hierarchy.h \
     componenttransform.h \
-    componentrender.h \
     transformwidget.h \
-    renderwidget.h \
     scenewidget.h \
     mesh.h \
     submesh.h \
@@ -79,7 +75,6 @@ FORMS += \
     rendering.ui \
     hierarchy.ui \
     transformwidget.ui \
-    renderwidget.ui \
     meshwidget.ui \
     textureswidget.ui
 
