@@ -15,5 +15,5 @@ uniform sampler2D tex;
 void main(void)
 {
 	outColor = texture(tex, FSIn.texCoord);
-	normals  =vec4(1);
+	normals  = vec4(FSIn.texCoord.x, FSIn.texCoord.y, 0, 1);
 }

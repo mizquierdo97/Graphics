@@ -53,15 +53,16 @@ void OpenGlWidget::initializeGL()
 
     program.release();
 
-    InitializeBuffers();
 
     deferredProgram.create();
     deferredProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/deferred_vert");
     deferredProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/deferred_frag");
     deferredProgram.link();
-    deferredProgram.bind();
 
-    deferredProgram.release();
+
+    InitializeBuffers();
+    program.bind();
+
     float verticesQuad[] = {     /*Position*/-1.0f, -1.0f, 0.0f, /*Color*/ 1.0f, 1.0f, 1.0f,  /*TextureCoord*/ 0.0f, 0.0f,
                                                   0.0f, 0.0f, 0.0f,            1.0f, 1.0f, 1.0f,                   1.0f, 1.0f,
                                                   -1.0f, 0.0f, 0.0f,           1.0f, 1.0f, 1.0f,                   0.0f, 1.0f,
@@ -98,9 +99,9 @@ void OpenGlWidget::resizeGL(int width, int height)
 
 void OpenGlWidget::paintGL()
 {
-    glClearColor(0.0f, 0.0f, 0.0f,1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    QOpenGLFunctions* gl_functions = QOpenGLContext::currentContext()->functions();
 
+    gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     camera->Update();
     if(hierarchyRef == nullptr)
     {
@@ -119,6 +120,8 @@ void OpenGlWidget::paintGL()
     {
         glDisable(GL_FALSE);
     }
+
+
     glClearDepth(1.0f);
      glClearColor(1.0f,0.0f,0.0f,1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -129,7 +132,13 @@ void OpenGlWidget::paintGL()
         hierarchyRef->RenderObjects(program.programId());
     }
 
-    glBindTexture(GL_TEXTURE_2D, 0);
+
+        gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glClearDepth(1.0f);
+    // glClearColor(0.0f,1.0f,0.0f,1.0f);
+      //   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+         glBindTexture(GL_TEXTURE_2D, 0);
     if(deferredProgram.bind())
     {
 
@@ -137,17 +146,17 @@ void OpenGlWidget::paintGL()
            //program.setUniformValue(program.uniformLocation("normalMap"), 1);
            //program.setUniformValue(program.uniformLocation("depthMap"), 2);
 
+        vao.bind();
            glActiveTexture(GL_TEXTURE0);
            glBindTexture(GL_TEXTURE_2D,normalTexture);
 
 
-           vao.bind();
            glDrawArrays(GL_TRIANGLES, 0,6);
     }
 
        // Release
        vao.release();
-       deferredProgram.release();
+       //deferredProgram.release();
        glBindTexture(GL_TEXTURE_2D, 0);
 }
 

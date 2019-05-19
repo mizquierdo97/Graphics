@@ -55,8 +55,8 @@ private:
     GLuint normalTexture;
     GLuint fbo;
 
-    int width = 100;
-    int height = 100;
+    int width = 1000;
+    int height = 1000;
 };
 
 extern OpenGlWidget* openGLWidget;
