@@ -148,16 +148,28 @@ void OpenGlWidget::paintGL()
         glClearDepth(1.0f);
         glClearColor(0.0f,0.0f,0.0f,1.0f);
          glBindTexture(GL_TEXTURE_2D, 0);
+
+         int colorIndex = glGetUniformLocation(deferredProgram.programId(), "tex");
+         int normalIndex  = glGetUniformLocation(deferredProgram.programId(), "normalMap");
     if(deferredProgram.bind())
     {
 
-           //deferredProgram.setUniformValue(deferredProgram.uniformLocation("tex"), 0);
-           //program.setUniformValue(program.uniformLocation("normalMap"), 1);
-           //program.setUniformValue(program.uniformLocation("depthMap"), 2);
+
+
+        glUniform1i(colorIndex, 1);
+        glUniform1i(normalIndex, 0);
+          //deferredProgram.setUniformValue(deferredProgram.uniformLocation("tex"), 0);
+           //deferredProgram.setUniformValue(deferredProgram.uniformLocation("normalMap"), 1);
+           //deferredProgram.setUniformValue(deferredProgram.uniformLocation("depthMap"), 2);
 
         vao.bind();
         glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D,normalTexture);
+        glActiveTexture(GL_TEXTURE0 + 1);
         glBindTexture(GL_TEXTURE_2D,colorTexture);
+
+        //glActiveTexture(GL_TEXTURE2);
+        //glBindTexture(GL_TEXTURE_2D,depthTexture);
 
         glDrawArrays(GL_TRIANGLES, 0,6);
     }

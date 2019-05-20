@@ -98,3 +98,9 @@ else:unix: LIBS += -L$$PWD/ThirdParty/Assimp/lib/ -lassimp
 
 INCLUDEPATH += $$PWD/ThirdParty/Assimp/include
 DEPENDPATH += $$PWD/ThirdParty/Assimp/include
+
+DISTFILES += \
+    shaders/deferred_frag \
+    shaders/deferred_vert \
+    shaders/shader1_frag \
+    shaders/shader1_vert
