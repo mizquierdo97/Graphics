@@ -45,7 +45,7 @@ void Camera::Update()
     Rotate();
 
     projection.setToIdentity();
-    projection.perspective(60, 16/9, nearPlane, farPlane);
+    projection.perspective(60, ratio, nearPlane, farPlane);
 
     transform.setToIdentity();
     transform.translate(pos);

@@ -64,11 +64,11 @@ void OpenGlWidget::initializeGL()
     program.bind();
 
     float verticesQuad[] = {     /*Position*/-1.0f, -1.0f, 0.0f, /*Color*/ 1.0f, 1.0f, 1.0f,  /*TextureCoord*/ 0.0f, 0.0f,
-                                                  0.0f, 0.0f, 0.0f,            1.0f, 1.0f, 1.0f,                   1.0f, 1.0f,
-                                                  -1.0f, 0.0f, 0.0f,           1.0f, 1.0f, 1.0f,                   0.0f, 1.0f,
+                                                  1.0f, 1.0f, 0.0f,            1.0f, 1.0f, 1.0f,                   1.0f, 1.0f,
+                                                  -1.0f, 1.0f, 0.0f,           1.0f, 1.0f, 1.0f,                   0.0f, 1.0f,
                                                   -1.0f, -1.0f, 0.0f,          1.0f, 1.0f, 1.0f,                   0.0f, 0.0f,
-                                                   0.0f, -1.0f, 0.0f,          1.0f, 1.0f, 1.0f,                   1.0f, 0.0f,
-                                                   0.0f, 0.0f, 0.0f,           1.0f, 1.0f, 1.0f,                   1.0f, 1.0f };
+                                                   1.0f, -1.0f, 0.0f,          1.0f, 1.0f, 1.0f,                   1.0f, 0.0f,
+                                                   1.0f, 1.0f, 0.0f,           1.0f, 1.0f, 1.0f,                   1.0f, 1.0f };
     if(!vbo.isCreated())
             vbo.create();
         vbo.bind();
@@ -92,8 +92,20 @@ void OpenGlWidget::initializeGL()
 
 }
 
-void OpenGlWidget::resizeGL(int width, int height)
+void OpenGlWidget::resizeGL(int _width, int _height)
 {
+
+    QOpenGLFunctions* gl_functions = QOpenGLContext::currentContext()->functions();
+
+    gl_functions->glDeleteTextures(1, &colorTexture);
+    gl_functions->glDeleteTextures(1, &normalTexture);
+    gl_functions->glDeleteTextures(1, &depthTexture);
+    gl_functions->glDeleteFramebuffers(1, &fbo);
+
+    width = _width;
+    height = _height;
+    camera->ratio = (float)width / (float)height;
+    InitializeBuffers();
 
 }
 
@@ -106,10 +118,9 @@ void OpenGlWidget::paintGL()
     if(hierarchyRef == nullptr)
     {
         MainWindow* mainWindowRef = dynamic_cast<MainWindow*>( parent()->parent());
-        hierarchyRef = mainWindowRef->getHierarchyWidget();        
+        hierarchyRef = mainWindowRef->getHierarchyWidget();
     }
 
-   // hierarchyRef->RenderObjects();
     if(true)
     {
         glEnable(GL_DEPTH_TEST);
@@ -123,7 +134,7 @@ void OpenGlWidget::paintGL()
 
 
     glClearDepth(1.0f);
-     glClearColor(1.0f,0.0f,0.0f,1.0f);
+     glClearColor(0.0f,0.0f,0.0f,1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -135,9 +146,7 @@ void OpenGlWidget::paintGL()
 
         gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glClearDepth(1.0f);
-    // glClearColor(0.0f,1.0f,0.0f,1.0f);
-      //   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+        glClearColor(0.0f,0.0f,0.0f,1.0f);
          glBindTexture(GL_TEXTURE_2D, 0);
     if(deferredProgram.bind())
     {
@@ -147,16 +156,12 @@ void OpenGlWidget::paintGL()
            //program.setUniformValue(program.uniformLocation("depthMap"), 2);
 
         vao.bind();
-           glActiveTexture(GL_TEXTURE0);
-           glBindTexture(GL_TEXTURE_2D,normalTexture);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D,colorTexture);
 
-
-           glDrawArrays(GL_TRIANGLES, 0,6);
+        glDrawArrays(GL_TRIANGLES, 0,6);
     }
-
-       // Release
        vao.release();
-       //deferredProgram.release();
        glBindTexture(GL_TEXTURE_2D, 0);
 }
 
