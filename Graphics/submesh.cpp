@@ -11,11 +11,11 @@ SubMesh::SubMesh(VertexFormat vertexFormat, void* data, int size): ibo(QOpenGLBu
     glfuncs = QOpenGLContext::currentContext()->functions();
 }
 
-SubMesh::SubMesh(VertexFormat vertexFormat, void *data, int size, unsigned int *indices, int indices_count): ibo(QOpenGLBuffer::IndexBuffer)
+SubMesh::SubMesh(VertexFormat vertexFormat, void *data, int size, unsigned int *indices, int indices_count, QOpenGLTexture* _texture): ibo(QOpenGLBuffer::IndexBuffer)
 {
     this->vertexFormat = vertexFormat;
     //this->data = static_cast<unsigned char*>(data);
-
+    GLTexture = _texture;
     this->dataSize = static_cast<size_t>(size);;
     this->data = new unsigned char[this->dataSize];
     std::memcpy(this->data, data, this->dataSize);

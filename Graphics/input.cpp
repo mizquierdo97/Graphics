@@ -30,7 +30,7 @@ void Input::mouseMoveEvent(QMouseEvent *event)
     mousex_prev = event->x() - mousex;
     mousey_prev = event->y() - mousey;
     mousex = event->x();
-    mousey = event->y();
+    mousey = event->y();  
 }
 
 void Input::mouseReleaseEvent(QMouseEvent *event)

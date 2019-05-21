@@ -21,6 +21,6 @@ void ResourceTexture::Load()
     {
         img.fill(1);
     }
-    GLTexture = new QOpenGLTexture(QImage(path));
+    GLTexture = new QOpenGLTexture(QImage(path).mirrored());
 
 }

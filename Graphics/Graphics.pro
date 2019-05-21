@@ -45,7 +45,8 @@ SOURCES += \
     resourcetexture.cpp \
     meshwidget.cpp \
     resource.cpp \
-    textureswidget.cpp
+    textureswidget.cpp \
+    material.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -68,7 +69,8 @@ HEADERS += \
     resourcetexture.h \
     meshwidget.h \
     resource.h \
-    textureswidget.h
+    textureswidget.h \
+    material.h
 
 FORMS += \
         mainwindow.ui \

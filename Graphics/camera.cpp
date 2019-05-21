@@ -10,19 +10,30 @@ void Camera::Move()
 {
     if(input->keys[Qt::Key_W] == KeyState::Down)
     {
-        pos += forward * speed * 0.16666f;
+        pos -= forward * speed * 0.16666f;
     }
     if(input->keys[Qt::Key_S] == KeyState::Down)
     {
-        pos -= forward * speed * 0.16666f;
+        pos += forward * speed * 0.16666f;
     }
     if(input->keys[Qt::Key_A] == KeyState::Down)
     {
-        pos += left * speed * 0.16666f;
+        pos -= left * speed * 0.16666f;
     }
     if(input->keys[Qt::Key_D] == KeyState::Down)
     {
-        pos -= left * speed * 0.16666f;
+        pos += left * speed * 0.16666f;
+    }
+
+    if (input->mouseButtons[1] == MouseButtonState::Down)
+    {
+        float xRot = rot.x();
+        float yRot = rot.y();
+        rot.setX(xRot - input->mousey_prev);
+        rot.setY(yRot - input->mousex_prev);
+        input->mousex_prev = 0;
+        input->mousey_prev = 0;
+
     }
 }
 
@@ -49,5 +60,6 @@ void Camera::Update()
 
     transform.setToIdentity();
     transform.translate(pos);
-    transform.rotate(QQuaternion::fromEulerAngles(rot));
+    transform.rotate(rot.x(), left);
+    transform.rotate(rot.y(), up);
 }

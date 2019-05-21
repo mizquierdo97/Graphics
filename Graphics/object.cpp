@@ -57,7 +57,7 @@ void Object::Render(int program)
     openGLWidget->glUniformMatrix4fv(index,1, GL_FALSE, compTransform->transform.data());
     
     index = openGLWidget->glGetUniformLocation(1, "_View");
-    openGLWidget->glUniformMatrix4fv(index,1, GL_FALSE, camera->transform.data());
+    openGLWidget->glUniformMatrix4fv(index,1, GL_FALSE, camera->transform.inverted().data());
     
     ComponentMesh* compMesh = GetComponentMesh();
     if(compMesh != nullptr)

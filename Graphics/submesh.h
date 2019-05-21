@@ -11,7 +11,7 @@ class SubMesh
 {
 public:
     SubMesh(VertexFormat vertexFormat, void* data, int size);
-    SubMesh(VertexFormat vertexFormat, void* data, int size, unsigned int* indices, int indices_count);
+    SubMesh(VertexFormat vertexFormat, void* data, int size, unsigned int* indices, int indices_count, QOpenGLTexture* _texture);
     ~SubMesh();
 
     void Update();

@@ -3,6 +3,7 @@
 #include <assimp/postprocess.h>
 #include <QFile>
 #include <iostream>
+#include "resources.h"
 
 Mesh::Mesh()
 {
@@ -13,28 +14,7 @@ void Mesh::loadModel(const QString filename)
 {
     Assimp::Importer import;
 
-    QFile file(filename);
-    if(!file.open(QIODevice::ReadOnly))
-    {
-
-        return;
-    }
-
-    QByteArray data = file.readAll();
-
-    const aiScene* scene = import.ReadFileFromMemory(
-                data.data(), data.size(),
-                                aiProcess_Triangulate |
-                                aiProcess_GenSmoothNormals |
-                                aiProcess_FixInfacingNormals |
-                                aiProcess_JoinIdenticalVertices |
-                                aiProcess_PreTransformVertices |
-                                //aiProcess_RemoveRedundantMaterials |
-                                aiProcess_SortByPType |
-                                aiProcess_ImproveCacheLocality |
-                                aiProcess_FlipUVs |
-                                aiProcess_OptimizeMeshes,
-                ".obj");
+    const aiScene* scene = import.ReadFile(filename.toStdString(), aiProcessPreset_TargetRealtime_MaxQuality);
 
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
     {
@@ -63,11 +43,7 @@ void Mesh::processNode(aiNode *node, const aiScene *scene)
         submeshes.push_back(subMesh);
 
     }
-    for(unsigned int i = 0; i < node->mNumMeshes; i++)
-    {
 
-
-    }
     for(unsigned int i = 0; i < node->mNumChildren; i++)
     {
         processNode(node->mChildren[i], scene);
@@ -112,14 +88,35 @@ SubMesh *Mesh::processMesh(aiMesh *mesh, const aiScene *scene)
     vertexFormat.setVertexAttribute(0,0,3);
     vertexFormat.setVertexAttribute(1, 3 * sizeof (float), 3);
 
-    if(hasTexCoords)
+    QOpenGLTexture* texture = nullptr;
+    for (unsigned int i = 0 ; i < scene->mNumMaterials ; i++)
     {
+        const aiMaterial* pMaterial = scene->mMaterials[i];
+        if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+                   aiString path;
+
+                   if (pMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS)
+                   {
+                    for(int n = 0; n < resources->textureResources.size(); n++)
+                    {
+                        QString name = resources->textureResources[n]->name;
+                        if(name.compare(path.C_Str()) == 0)
+                        {
+                            resources->textureResources[n]->Load();
+                            texture = resources->textureResources[n]->GLTexture;
+                        }
+                    }
+              }
+        }
+    }
+    if(hasTexCoords)
+    {       
         vertexFormat.setVertexAttribute(2, 6* sizeof (float), 2);
     }
 
 
     return new SubMesh(vertexFormat,
                        &vertices[0], vertices.size() * sizeof (float),
-                       & indices[0], indices.size());;
+                       & indices[0], indices.size(), texture);;
 
 }
