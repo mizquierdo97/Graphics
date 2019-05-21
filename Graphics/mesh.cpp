@@ -24,12 +24,16 @@ void Mesh::loadModel(const QString filename)
 
     const aiScene* scene = import.ReadFileFromMemory(
                 data.data(), data.size(),
-                aiProcess_Triangulate |
-                aiProcess_FlipUVs |
-                aiProcess_GenSmoothNormals |
-                aiProcess_OptimizeMeshes |
-                aiProcess_PreTransformVertices |
-                aiProcess_ImproveCacheLocality,
+                                aiProcess_Triangulate |
+                                aiProcess_GenSmoothNormals |
+                                aiProcess_FixInfacingNormals |
+                                aiProcess_JoinIdenticalVertices |
+                                aiProcess_PreTransformVertices |
+                                //aiProcess_RemoveRedundantMaterials |
+                                aiProcess_SortByPType |
+                                aiProcess_ImproveCacheLocality |
+                                aiProcess_FlipUVs |
+                                aiProcess_OptimizeMeshes,
                 ".obj");
 
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
@@ -82,6 +86,7 @@ SubMesh *Mesh::processMesh(aiMesh *mesh, const aiScene *scene)
         vertices.push_back(mesh->mVertices[i].x);
         vertices.push_back(mesh->mVertices[i].y);
         vertices.push_back(mesh->mVertices[i].z);
+
         vertices.push_back(mesh->mNormals[i].x);
         vertices.push_back(mesh->mNormals[i].y);
         vertices.push_back(mesh->mNormals[i].z);

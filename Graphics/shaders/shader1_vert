@@ -17,6 +17,6 @@ out Data
 void main(void)
 {
 gl_Position = _Projection * _View * _Model * vec4(position, 1);
-VSOut.color = vec3(uv.x, uv.y, 0);
+VSOut.color = color;
 VSOut.texCoord = uv;
 }

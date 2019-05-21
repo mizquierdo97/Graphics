@@ -144,37 +144,37 @@ void OpenGlWidget::paintGL()
     }
 
 
-        gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glClearDepth(1.0f);
+        gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, 0);        
         glClearColor(0.0f,0.0f,0.0f,1.0f);
+
+        glClear(GL_COLOR_BUFFER_BIT);
          glBindTexture(GL_TEXTURE_2D, 0);
 
-         int colorIndex = glGetUniformLocation(deferredProgram.programId(), "tex");
+         int colorIndex = glGetUniformLocation(deferredProgram.programId(), "colorTex");
          int normalIndex  = glGetUniformLocation(deferredProgram.programId(), "normalMap");
     if(deferredProgram.bind())
     {
 
 
+        glUniform1i(colorIndex, 0);
+        if(normalIndex != -1)
+        glUniform1i(normalIndex, 1);
 
-        glUniform1i(colorIndex, 1);
-        glUniform1i(normalIndex, 0);
-          //deferredProgram.setUniformValue(deferredProgram.uniformLocation("tex"), 0);
-           //deferredProgram.setUniformValue(deferredProgram.uniformLocation("normalMap"), 1);
-           //deferredProgram.setUniformValue(deferredProgram.uniformLocation("depthMap"), 2);
-
-        vao.bind();
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D,normalTexture);
-        glActiveTexture(GL_TEXTURE0 + 1);
         glBindTexture(GL_TEXTURE_2D,colorTexture);
 
-        //glActiveTexture(GL_TEXTURE2);
-        //glBindTexture(GL_TEXTURE_2D,depthTexture);
+        if(normalIndex != -1){
+        glActiveTexture(GL_TEXTURE0 + 1);
+        glBindTexture(GL_TEXTURE_2D,normalTexture);
+          }
+
+        vao.bind();
 
         glDrawArrays(GL_TRIANGLES, 0,6);
     }
        vao.release();
        glBindTexture(GL_TEXTURE_2D, 0);
+       glActiveTexture(GL_TEXTURE0);
 }
 
 void OpenGlWidget::InitializeBuffers()
