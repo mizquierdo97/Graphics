@@ -10,11 +10,6 @@ MeshWidget::MeshWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QComboBox* newComboBox = new QComboBox();
-    textureComboBox.push_back(newComboBox);
-    QComboBox* newComboBox2 = new QComboBox();
-    textureComboBox.push_back(newComboBox2);
-    ui->TexturesLayout->addWidget(newComboBox2);
 
 }
 
@@ -57,6 +52,7 @@ void MeshWidget::on_comboBox_currentIndexChanged(int _index)
             delete textureComboBox[i];
         }
         textureComboBox.clear();
+        ui->scrollArea->setLayout(ui->TexturesLayout);
         ui->TexturesLayout->update();
         for(int i = 0; i < mesh->submeshes.size(); i++)
         {
@@ -64,14 +60,16 @@ void MeshWidget::on_comboBox_currentIndexChanged(int _index)
             textureComboBox.push_back(newComboBox);
             ui->TexturesLayout->addWidget(newComboBox);
             QVector<ResourceTexture*> texRes = resources->textureResources;
-            for(int i = 0; i < texRes.size(); i++)
+            for(int n = 0; n < texRes.size(); n++)
             {
-                newComboBox->addItem(texRes[i]->name);
+                newComboBox->addItem(texRes[n]->name);
 
             }
             QString name = "ComboBox";
             name += QString::number(i);
             newComboBox->setObjectName(name);
+
+
             connect(newComboBox, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(onTextureComboChanged(const QString&)));
         }
     }

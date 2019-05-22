@@ -105,4 +105,5 @@ DISTFILES += \
     shaders/deferred_frag \
     shaders/deferred_vert \
     shaders/shader1_frag \
-    shaders/shader1_vert
+    shaders/shader1_vert \
+    shaders/blur_frag

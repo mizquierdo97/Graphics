@@ -89,9 +89,8 @@ SubMesh *Mesh::processMesh(aiMesh *mesh, const aiScene *scene)
     vertexFormat.setVertexAttribute(1, 3 * sizeof (float), 3);
 
     QOpenGLTexture* texture = nullptr;
-    for (unsigned int i = 0 ; i < scene->mNumMaterials ; i++)
-    {
-        const aiMaterial* pMaterial = scene->mMaterials[i];
+
+        const aiMaterial* pMaterial = scene->mMaterials[mesh->mMaterialIndex];
         if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
                    aiString path;
 
@@ -108,7 +107,7 @@ SubMesh *Mesh::processMesh(aiMesh *mesh, const aiScene *scene)
                     }
               }
         }
-    }
+
     if(hasTexCoords)
     {       
         vertexFormat.setVertexAttribute(2, 6* sizeof (float), 2);

@@ -45,6 +45,7 @@ public:
     QOpenGLVertexArrayObject vao;
     QOpenGLShaderProgram program;
     QOpenGLShaderProgram deferredProgram;
+    QOpenGLShaderProgram blurProgram;
 
     Hierarchy* hierarchyRef = nullptr;
     QTimer timer;
@@ -53,6 +54,10 @@ private:
     GLuint colorTexture;
     GLuint depthTexture;
     GLuint normalTexture;
+
+    GLuint VBlur;
+    GLuint HBlur;
+
     GLuint fbo;
 
     int width = 100;

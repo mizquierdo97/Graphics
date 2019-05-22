@@ -60,6 +60,11 @@ void OpenGlWidget::initializeGL()
     deferredProgram.link();
 
 
+    blurProgram.create();
+    blurProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/deferred_vert");
+    blurProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/blur_frag");
+    blurProgram.link();
+
     InitializeBuffers();
     program.bind();
 
@@ -154,8 +159,6 @@ void OpenGlWidget::paintGL()
          int normalIndex  = glGetUniformLocation(deferredProgram.programId(), "normalMap");
     if(deferredProgram.bind())
     {
-
-
         glUniform1i(colorIndex, 0);
         if(normalIndex != -1)
         glUniform1i(normalIndex, 1);
@@ -167,6 +170,33 @@ void OpenGlWidget::paintGL()
         glActiveTexture(GL_TEXTURE0 + 1);
         glBindTexture(GL_TEXTURE_2D,normalTexture);
           }
+
+        vao.bind();
+
+        glDrawArrays(GL_TRIANGLES, 0,6);
+    }
+    glClearDepth(1.0f);
+     glClearColor(0.0f,0.0f,0.0f,1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+     glBindTexture(GL_TEXTURE_2D, 0);
+     glActiveTexture(GL_TEXTURE0);
+    if(blurProgram.bind())
+    {
+        colorIndex = glGetUniformLocation(blurProgram.programId(), "colorTex");
+        normalIndex  = glGetUniformLocation(blurProgram.programId(), "normalMap");
+        glUniform1i(colorIndex, 0);
+        if(normalIndex != -1)
+        glUniform1i(normalIndex, 1);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D,0);
+
+        if(normalIndex != -1){
+        glActiveTexture(GL_TEXTURE0 + 1);
+        glBindTexture(GL_TEXTURE_2D,normalTexture);
+          }
+
 
         vao.bind();
 
@@ -215,6 +245,22 @@ void OpenGlWidget::InitializeBuffers()
        GLenum buffers[] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1};
        gl_functions->glDrawBuffers(2, buffers);
 
+
+       glGenTextures(1, &VBlur);
+       glBindTexture(GL_TEXTURE_2D, VBlur);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+
+       glGenTextures(1, &HBlur);
+       glBindTexture(GL_TEXTURE_2D, HBlur);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 
        GLenum status = gl_functions->glCheckFramebufferStatus(GL_FRAMEBUFFER);
         switch(status)
