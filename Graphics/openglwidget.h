@@ -46,6 +46,7 @@ public:
     QOpenGLShaderProgram program;
     QOpenGLShaderProgram deferredProgram;
     QOpenGLShaderProgram blurProgram;
+    QOpenGLShaderProgram depthFieldProgram;
 
     Hierarchy* hierarchyRef = nullptr;
     QTimer timer;
@@ -55,10 +56,20 @@ private:
     GLuint depthTexture;
     GLuint normalTexture;
 
+    GLuint deferredTexture;
+
     GLuint VBlur;
     GLuint HBlur;
 
-    GLuint fbo;
+    GLuint HDepthField;
+    GLuint VDepthField;
+
+    GLuint fbo;    
+    GLuint deferredFbo;
+    GLuint VBlurFbo;
+    GLuint HBlurFbo;
+    GLuint HDepthFieldFbo;
+    GLuint VDepthFieldFbo;
 
     int width = 100;
     int height = 100;

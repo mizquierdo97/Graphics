@@ -38,7 +38,7 @@ uv = vec2(FSIn.texCoord.x - texCoordInc.x * 5, FSIn.texCoord.y);
 }
 else
 {
-uv = vec2(FSIn.texCoord.x, FSIn.texCoord.y - texCoordInc.y);
+uv = vec2(FSIn.texCoord.x, FSIn.texCoord.y - texCoordInc.y * 5);
 }
 float sumWeights = 0.0f;
 

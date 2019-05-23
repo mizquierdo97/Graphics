@@ -59,11 +59,15 @@ void OpenGlWidget::initializeGL()
     deferredProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/deferred_frag");
     deferredProgram.link();
 
-
     blurProgram.create();
     blurProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/deferred_vert");
     blurProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/blur_frag");
     blurProgram.link();
+
+    depthFieldProgram.create();
+    depthFieldProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/deferred_vert");
+    depthFieldProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/blur_frag");
+    depthFieldProgram.link();
 
     InitializeBuffers();
     program.bind();
@@ -149,7 +153,7 @@ void OpenGlWidget::paintGL()
     }
 
 
-        gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, 0);        
+        gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, deferredFbo);
         glClearColor(0.0f,0.0f,0.0f,1.0f);
 
         glClear(GL_COLOR_BUFFER_BIT);
@@ -175,22 +179,27 @@ void OpenGlWidget::paintGL()
 
         glDrawArrays(GL_TRIANGLES, 0,6);
     }
-    glClearDepth(1.0f);
+
+    //BLUR---------------------
+     gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, HBlurFbo);
+     glClearDepth(1.0f);
      glClearColor(0.0f,0.0f,0.0f,1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
      glBindTexture(GL_TEXTURE_2D, 0);
      glActiveTexture(GL_TEXTURE0);
     if(blurProgram.bind())
     {
         colorIndex = glGetUniformLocation(blurProgram.programId(), "colorTex");
-        normalIndex  = glGetUniformLocation(blurProgram.programId(), "normalMap");
+        int typeIndex  = glGetUniformLocation(blurProgram.programId(), "type");
+        int texCoordIncIndex = glGetUniformLocation(blurProgram.programId(), "texCoordInc");
         glUniform1i(colorIndex, 0);
-        if(normalIndex != -1)
-        glUniform1i(normalIndex, 1);
+        glUniform1i(typeIndex, 0);
+        float vec[2] = {(1.0f/width) * 5, (1.0f/height) * 5};
+        glUniform2fv(texCoordIncIndex, 1, &vec[0]);
 
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D,0);
+        glBindTexture(GL_TEXTURE_2D,deferredTexture);
 
         if(normalIndex != -1){
         glActiveTexture(GL_TEXTURE0 + 1);
@@ -202,6 +211,60 @@ void OpenGlWidget::paintGL()
 
         glDrawArrays(GL_TRIANGLES, 0,6);
     }
+    gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glClearDepth(1.0f);
+    glClearColor(0.0f,0.0f,0.0f,1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glActiveTexture(GL_TEXTURE0);
+   if(blurProgram.bind())
+   {
+       colorIndex = glGetUniformLocation(blurProgram.programId(), "colorTex");
+       int typeIndex  = glGetUniformLocation(blurProgram.programId(), "type");
+       int texCoordIncIndex = glGetUniformLocation(blurProgram.programId(), "texCoordInc");
+       glUniform1i(colorIndex, 0);
+       glUniform1i(typeIndex, 1);
+       float vec[2] = {(1.0f/width) * 5, (1.0f/height) * 5};
+       glUniform2fv(texCoordIncIndex, 1, &vec[0]);
+
+       glActiveTexture(GL_TEXTURE0);
+       glBindTexture(GL_TEXTURE_2D,HBlur);
+
+       vao.bind();
+
+       glDrawArrays(GL_TRIANGLES, 0,6);
+   }
+
+//BLUR----------
+
+   //DEPTH OF FIELD----------
+   if(depthFieldProgram.bind())
+   {
+       colorIndex = glGetUniformLocation(blurProgram.programId(), "colorTex");
+       int typeIndex  = glGetUniformLocation(blurProgram.programId(), "type");
+       int texCoordIncIndex = glGetUniformLocation(blurProgram.programId(), "texCoordInc");
+       glUniform1i(colorIndex, 0);
+       glUniform1i(typeIndex, 0);
+       float vec[2] = {(1.0f/width) * 5, (1.0f/height) * 5};
+       glUniform2fv(texCoordIncIndex, 1, &vec[0]);
+
+       glActiveTexture(GL_TEXTURE0);
+       glBindTexture(GL_TEXTURE_2D,deferredTexture);
+
+       if(normalIndex != -1){
+       glActiveTexture(GL_TEXTURE0 + 1);
+       glBindTexture(GL_TEXTURE_2D,normalTexture);
+         }
+
+
+       vao.bind();
+
+       glDrawArrays(GL_TRIANGLES, 0,6);
+   }
+
+   //DEPTH OF FIELD-------
+
        vao.release();
        glBindTexture(GL_TEXTURE_2D, 0);
        glActiveTexture(GL_TEXTURE0);
@@ -245,7 +308,6 @@ void OpenGlWidget::InitializeBuffers()
        GLenum buffers[] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1};
        gl_functions->glDrawBuffers(2, buffers);
 
-
        glGenTextures(1, &VBlur);
        glBindTexture(GL_TEXTURE_2D, VBlur);
        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -261,6 +323,74 @@ void OpenGlWidget::InitializeBuffers()
        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+
+
+       glGenTextures(1, &VDepthField);
+       glBindTexture(GL_TEXTURE_2D, VDepthField);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+
+       glGenTextures(1, &HDepthField);
+       glBindTexture(GL_TEXTURE_2D, HDepthField);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+
+       glGenTextures(1, &deferredTexture);
+       glBindTexture(GL_TEXTURE_2D, deferredTexture);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+
+       gl_functions->glGenFramebuffers(1, &deferredFbo);
+       gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, deferredFbo);
+       gl_functions->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, deferredTexture, 0);
+
+       glDrawBuffer(GL_COLOR_ATTACHMENT0);
+       GLenum deferredBuffers[] = {GL_COLOR_ATTACHMENT0};
+       gl_functions->glDrawBuffers(1, {deferredBuffers});
+
+       gl_functions->glGenFramebuffers(1, &HBlurFbo);
+       gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, HBlurFbo);
+       gl_functions->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, HBlur, 0);
+
+       glDrawBuffer(GL_COLOR_ATTACHMENT0);
+       GLenum HBlurBuffers[] = {GL_COLOR_ATTACHMENT0};
+       gl_functions->glDrawBuffers(1, {HBlurBuffers});
+
+       gl_functions->glGenFramebuffers(1, &VBlurFbo);
+       gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, VBlurFbo);
+       gl_functions->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, VBlur, 0);
+
+       glDrawBuffer(GL_COLOR_ATTACHMENT0);
+       GLenum VBlurBuffers[] = {GL_COLOR_ATTACHMENT0};
+       gl_functions->glDrawBuffers(1, {VBlurBuffers});
+
+       gl_functions->glGenFramebuffers(1, &HDepthFieldFbo);
+       gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, HDepthFieldFbo);
+       gl_functions->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, HDepthField, 0);
+
+       glDrawBuffer(GL_COLOR_ATTACHMENT0);
+       GLenum HDepthFieldsBuffers[] = {GL_COLOR_ATTACHMENT0};
+       gl_functions->glDrawBuffers(1, {HDepthFieldsBuffers});
+
+       gl_functions->glGenFramebuffers(1, &VDepthFieldFbo);
+       gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, VDepthFieldFbo);
+       gl_functions->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, VDepthField, 0);
+
+       glDrawBuffer(GL_COLOR_ATTACHMENT0);
+       GLenum VDepthFieldsBuffers[] = {GL_COLOR_ATTACHMENT0};
+       gl_functions->glDrawBuffers(1, {VDepthFieldsBuffers});
+
+
+
 
        GLenum status = gl_functions->glCheckFramebufferStatus(GL_FRAMEBUFFER);
         switch(status)

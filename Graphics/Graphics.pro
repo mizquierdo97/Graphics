@@ -106,4 +106,5 @@ DISTFILES += \
     shaders/deferred_vert \
     shaders/shader1_frag \
     shaders/shader1_vert \
-    shaders/blur_frag
+    shaders/blur_frag \
+    shaders/depthfield_frag
