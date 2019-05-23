@@ -355,7 +355,7 @@ void OpenGlWidget::InitializeBuffers()
 
        glDrawBuffer(GL_COLOR_ATTACHMENT0);
        GLenum deferredBuffers[] = {GL_COLOR_ATTACHMENT0};
-       gl_functions->glDrawBuffers(1, {deferredBuffers});
+       gl_functions->glDrawBuffers(1, deferredBuffers);
 
        gl_functions->glGenFramebuffers(1, &HBlurFbo);
        gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, HBlurFbo);
@@ -363,7 +363,7 @@ void OpenGlWidget::InitializeBuffers()
 
        glDrawBuffer(GL_COLOR_ATTACHMENT0);
        GLenum HBlurBuffers[] = {GL_COLOR_ATTACHMENT0};
-       gl_functions->glDrawBuffers(1, {HBlurBuffers});
+       gl_functions->glDrawBuffers(1, HBlurBuffers);
 
        gl_functions->glGenFramebuffers(1, &VBlurFbo);
        gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, VBlurFbo);
@@ -371,7 +371,7 @@ void OpenGlWidget::InitializeBuffers()
 
        glDrawBuffer(GL_COLOR_ATTACHMENT0);
        GLenum VBlurBuffers[] = {GL_COLOR_ATTACHMENT0};
-       gl_functions->glDrawBuffers(1, {VBlurBuffers});
+       gl_functions->glDrawBuffers(1, VBlurBuffers);
 
        gl_functions->glGenFramebuffers(1, &HDepthFieldFbo);
        gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, HDepthFieldFbo);
@@ -379,7 +379,7 @@ void OpenGlWidget::InitializeBuffers()
 
        glDrawBuffer(GL_COLOR_ATTACHMENT0);
        GLenum HDepthFieldsBuffers[] = {GL_COLOR_ATTACHMENT0};
-       gl_functions->glDrawBuffers(1, {HDepthFieldsBuffers});
+       gl_functions->glDrawBuffers(1, HDepthFieldsBuffers);
 
        gl_functions->glGenFramebuffers(1, &VDepthFieldFbo);
        gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, VDepthFieldFbo);
@@ -387,9 +387,7 @@ void OpenGlWidget::InitializeBuffers()
 
        glDrawBuffer(GL_COLOR_ATTACHMENT0);
        GLenum VDepthFieldsBuffers[] = {GL_COLOR_ATTACHMENT0};
-       gl_functions->glDrawBuffers(1, {VDepthFieldsBuffers});
-
-
+       gl_functions->glDrawBuffers(1, VDepthFieldsBuffers);
 
 
        GLenum status = gl_functions->glCheckFramebufferStatus(GL_FRAMEBUFFER);
