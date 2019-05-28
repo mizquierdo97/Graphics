@@ -32,7 +32,6 @@ SOURCES += \
     component.cpp \
     hierarchy.cpp \
     componenttransform.cpp \
-    transformwidget.cpp \
     scenewidget.cpp \
     mesh.cpp \
     submesh.cpp \
@@ -46,7 +45,8 @@ SOURCES += \
     meshwidget.cpp \
     resource.cpp \
     textureswidget.cpp \
-    material.cpp
+    material.cpp \
+    transwidget.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -56,7 +56,6 @@ HEADERS += \
     component.h \
     hierarchy.h \
     componenttransform.h \
-    transformwidget.h \
     scenewidget.h \
     mesh.h \
     submesh.h \
@@ -70,15 +69,16 @@ HEADERS += \
     meshwidget.h \
     resource.h \
     textureswidget.h \
-    material.h
+    material.h \
+    transwidget.h
 
 FORMS += \
         mainwindow.ui \
     rendering.ui \
     hierarchy.ui \
-    transformwidget.ui \
     meshwidget.ui \
-    textureswidget.ui
+    textureswidget.ui \
+    transwidget.ui
 
 #Adds openGL library
 QT += opengl

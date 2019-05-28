@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include "object.h"
-#include "transformWidget.h"
+#include "transWidget.h"
 #include "meshwidget.h"
 class InspectorWidget : public QWidget
 {
@@ -18,7 +18,7 @@ public slots:
 
 public:
     Object* selectedObject = nullptr;
-    TransformWidget *transformWidget = nullptr;
+    TransWidget *transformWidget = nullptr;
     MeshWidget* meshWidget = nullptr;
 };
 

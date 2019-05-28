@@ -6,9 +6,6 @@
 #include <QWidget>
 #include <QMatrix4x4>
 
-namespace Ui {
-class Inspector;
-}
 
 class ComponentTransform : public Component
 {

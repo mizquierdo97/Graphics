@@ -1,5 +1,6 @@
 #include "inspectorwidget.h"
 #include "transformwidget.h"
+#include "transwidget.h"
 #include "meshwidget.h"
 #include <QSpacerItem>
 #include <QVBoxLayout>
@@ -8,7 +9,7 @@
 InspectorWidget::InspectorWidget(QWidget *parent) : QWidget(parent)
 {
 
-    transformWidget = new TransformWidget(this);
+    transformWidget = new TransWidget(this);
     QSpacerItem* spacer = new QSpacerItem(1,1, QSizePolicy::Expanding, QSizePolicy::Expanding);
     meshWidget = new MeshWidget(this);
     QVBoxLayout* layout = new QVBoxLayout;
@@ -27,7 +28,7 @@ InspectorWidget::~InspectorWidget()
 void InspectorWidget::UpdateInspector(Object *selected)
 {
     selectedObject = selected;
-    transformWidget->Update(selectedObject);
+    //transformWidget->Update(selectedObject);
     meshWidget->Update(selectedObject);
 
 }
