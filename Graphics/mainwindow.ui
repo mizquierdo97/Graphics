@@ -42,15 +42,14 @@
     </property>
     <addaction name="separator"/>
     <addaction name="actionFINAL"/>
+    <addaction name="actionDeferred_SSAO"/>
+    <addaction name="actionDeferred"/>
     <addaction name="separator"/>
     <addaction name="actionColor"/>
     <addaction name="actionDepth"/>
     <addaction name="actionNormal"/>
     <addaction name="separator"/>
     <addaction name="actionSSAO_only"/>
-    <addaction name="actionSSAO_deferred"/>
-    <addaction name="separator"/>
-    <addaction name="actionDepth_Field"/>
     <addaction name="separator"/>
     <addaction name="actionBlur"/>
    </widget>
@@ -110,24 +109,6 @@
    </attribute>
    <addaction name="actionExit"/>
   </widget>
-  <action name="actionOpen_Project">
-   <property name="icon">
-    <iconset resource="icons.qrc">
-     <normaloff>:/new/prefix1/Icons/descarga.png</normaloff>:/new/prefix1/Icons/descarga.png</iconset>
-   </property>
-   <property name="text">
-    <string>Open Project</string>
-   </property>
-  </action>
-  <action name="actionSave_Prohect">
-   <property name="icon">
-    <iconset resource="icons.qrc">
-     <normaloff>:/new/prefix1/Icons/descarga.png</normaloff>:/new/prefix1/Icons/descarga.png</iconset>
-   </property>
-   <property name="text">
-    <string>Save Project</string>
-   </property>
-  </action>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
@@ -136,6 +117,9 @@
   <action name="actionFINAL">
    <property name="text">
     <string>FINAL</string>
+   </property>
+   <property name="toolTip">
+    <string>Deferred + SSAO + DepthOfField</string>
    </property>
   </action>
   <action name="actionColor">
@@ -158,19 +142,19 @@
     <string>SSAO only</string>
    </property>
   </action>
-  <action name="actionSSAO_deferred">
-   <property name="text">
-    <string>SSAO + deferred</string>
-   </property>
-  </action>
-  <action name="actionDepth_Field">
-   <property name="text">
-    <string>Depth Field</string>
-   </property>
-  </action>
   <action name="actionBlur">
    <property name="text">
     <string>Blur</string>
+   </property>
+  </action>
+  <action name="actionDeferred_SSAO">
+   <property name="text">
+    <string>Deferred + SSAO</string>
+   </property>
+  </action>
+  <action name="actionDeferred">
+   <property name="text">
+    <string>Deferred</string>
    </property>
   </action>
  </widget>
@@ -182,8 +166,6 @@
    <header location="global">openglwidget.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

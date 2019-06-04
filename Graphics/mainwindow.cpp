@@ -47,13 +47,59 @@ void MainWindow::CreateHierarchyWidget()
 {
     hierarchyWidget = new Hierarchy();
     ui->Hierarchy->setWidget(hierarchyWidget);
-    connect(ui->actionOpen_Project, SIGNAL(triggered()), this, SLOT(openProject()));
-    connect(ui->actionSave_Prohect, SIGNAL(triggered()), this, SLOT(saveProject()));
     connect(ui->actionExit, SIGNAL(triggered()), qApp, SLOT(quit()));
+    connect(ui->actionFINAL, SIGNAL(triggered()), this, SLOT(ActivateFinalRender()));
+    connect(ui->actionDeferred_SSAO, SIGNAL(triggered()), this, SLOT(ActivateSSAORender()));
+    connect(ui->actionDeferred, SIGNAL(triggered()), this, SLOT(ActivateDeferredRender()));
+    connect(ui->actionColor, SIGNAL(triggered()), this, SLOT(ActivateColorRender()));
+    connect(ui->actionNormal, SIGNAL(triggered()), this, SLOT(ActivateNormalRender()));
+    connect(ui->actionDepth, SIGNAL(triggered()), this, SLOT(ActivateDepthRender()));
+    connect(ui->actionSSAO_only, SIGNAL(triggered()), this, SLOT(ActivateOnlySSAORender()));
+    connect(ui->actionBlur, SIGNAL(triggered()), this, SLOT(ActivateBlurRender()));
     hierarchyWidget->parentWidget = this;
 }
 
 Hierarchy *MainWindow::getHierarchyWidget()
 {
     return hierarchyWidget;
+}
+
+void MainWindow::ActivateFinalRender()
+{
+    openGLWidget->renderType = 0;
+}
+
+void MainWindow::ActivateDeferredRender()
+{
+    openGLWidget->renderType = 1;
+}
+
+void MainWindow::ActivateColorRender()
+{
+    openGLWidget->renderType = 2;
+}
+
+void MainWindow::ActivateNormalRender()
+{
+    openGLWidget->renderType = 3;
+}
+
+void MainWindow::ActivateDepthRender()
+{
+    openGLWidget->renderType = 4;
+}
+
+void MainWindow::ActivateSSAORender()
+{
+    openGLWidget->renderType = 5;
+}
+
+void MainWindow::ActivateOnlySSAORender()
+{
+    openGLWidget->renderType = 6;
+}
+
+void MainWindow::ActivateBlurRender()
+{
+    openGLWidget->renderType = 7;
 }

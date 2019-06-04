@@ -28,6 +28,16 @@ public slots:
 
     void CreateHierarchyWidget();
     Hierarchy* getHierarchyWidget();
+
+    void ActivateFinalRender();
+    void ActivateDeferredRender();
+    void ActivateColorRender();
+    void ActivateNormalRender();
+    void ActivateDepthRender();
+    void ActivateSSAORender();
+    void ActivateOnlySSAORender();
+    void ActivateBlurRender();
+
 public:
     InspectorWidget *inspectorWidget;
 private slots:

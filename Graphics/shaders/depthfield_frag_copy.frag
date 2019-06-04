@@ -18,11 +18,11 @@ uniform vec2 texCoordInc = vec2(0.001);
 
 float znear =  1.0f;
 float zfar = 300.0f;
-float focalLength = 10.0f;
-float focalDepth = 50.0f;
+float focalLength = 5.0f;
+float focalDepth = 10.0f;
 float fstop = 0.5f;
 float dithering = 0.0001f;
-float maxblur = 2.0f;
+float maxblur = 1.0f;
 float threshold = 4.0f;
 float gain = 0.0f;
 float bias = 0.0f;

@@ -53,6 +53,7 @@ public:
     Hierarchy* hierarchyRef = nullptr;
     QTimer timer;
 
+    int renderType = 0;
 private:
     GLuint colorTexture;
     GLuint depthTexture;

@@ -50,7 +50,7 @@ void main(void)
     for(int i = 0; i <  64; i++)
     {
         vec3 p = TBN * samples[i];
-        vec4 v = inverse(view) * vec4(p.xyz, 0.0f);
+        vec4 v = view * vec4(p.xyz, 0.0f);
         float radius = 0.5f;
         vec3 s = GetViewFragPos(depth) + v.xyz * radius;
         vec4 sampleTextCoord = proj * vec4(s, 1.0f);

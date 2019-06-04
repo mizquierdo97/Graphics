@@ -392,7 +392,7 @@ void OpenGlWidget::paintGL()
        glUniform1i(depthFieldIndex, 6);
        glUniform1i(blurIndex, 7);
 
-       glUniform1i(typeIndex, 0);
+       glUniform1i(typeIndex, renderType);
 
 
        glActiveTexture(GL_TEXTURE0);

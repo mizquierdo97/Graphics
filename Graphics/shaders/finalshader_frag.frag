@@ -52,7 +52,7 @@ void main(void)
     //SSAO + DEFERRED
     else if(type == 5)
     {
-        float occlussion = texture2D(SSAOTex, FSIn.texCoord).r;
+        float occlussion = texture2D(SSAOBlurTex, FSIn.texCoord).r;
         outColor = texture2D(deferredTex, FSIn.texCoord) * occlussion;
     }
     //SSAO ONLY
