@@ -11,6 +11,8 @@ Resources::Resources()
 
 void Resources::LoadResources(QString path)
 {
+
+
     QDir dir(path);
     dir.setFilter(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
 

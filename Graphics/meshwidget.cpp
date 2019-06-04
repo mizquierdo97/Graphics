@@ -69,6 +69,13 @@ void MeshWidget::on_comboBox_currentIndexChanged(int _index)
             name += QString::number(i);
             newComboBox->setObjectName(name);
 
+            for(int n = 0; n < resources->textureResources.size(); n++)
+            {
+                if(mesh->submeshes[i]->GLTexture == resources->textureResources[n]->GLTexture)
+                {
+                    newComboBox->setCurrentIndex(n);
+                }
+            }
 
             connect(newComboBox, SIGNAL(currentIndexChanged(const QString&)), this, SLOT(onTextureComboChanged(const QString&)));
         }

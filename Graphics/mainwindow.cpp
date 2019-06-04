@@ -6,6 +6,9 @@
 #include "input.h"
 #include "camera.h"
 #include "resources.h"
+#include "meshwidget.h"
+#include "ui_meshwidget.h"
+#include <QComboBox>
 
 #include <iostream>
 #include "hierarchy.h"
@@ -24,6 +27,12 @@ MainWindow::MainWindow(QWidget *parent) :
     camera = new Camera();
     resources = new Resources();
     CreateHierarchyWidget();
+
+    ResourceMesh* newMesh = new ResourceMesh();
+    newMesh->path = "NONE";
+    newMesh->name = "NONE";
+    resources->meshResources.push_back(newMesh);
+    inspectorWidget->meshWidget->ui->comboBox->addItem("NONE");
     resources->LoadResources("./assets");
 }
 
