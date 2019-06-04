@@ -33,7 +33,7 @@ void SubMesh::Update()
 
     vbo.create();
     vbo.bind();
-    vbo.setUsagePattern(QOpenGLBuffer::UsagePattern::StaticDraw);
+    vbo.setUsagePattern(QOpenGLBuffer::UsagePattern::DynamicDraw);
     vbo.allocate(data, int(dataSize));
     delete[] data;
     data = nullptr;
@@ -42,7 +42,7 @@ void SubMesh::Update()
     {
         ibo.create();
         ibo.bind();
-        ibo.setUsagePattern(QOpenGLBuffer::UsagePattern::StaticDraw);
+        ibo.setUsagePattern(QOpenGLBuffer::UsagePattern::DynamicDraw);
         ibo.allocate(indices, int(indicesCount * sizeof(unsigned int)));
         delete[] indices;
         indices = nullptr;

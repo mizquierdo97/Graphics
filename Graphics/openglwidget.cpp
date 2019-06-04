@@ -6,6 +6,9 @@
 #include <iostream>
 #include "qopenglextrafunctions.h"
 #include "resources.h"
+#include <random>
+#include <QtMath>
+
 
 #pragma comment(lib, "OpenGL32.lib")
 
@@ -46,8 +49,8 @@ void OpenGlWidget::initializeGL()
 
     //Program
     program.create();
-    program.addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/shader1_vert");
-    program.addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/shader1_frag");
+    program.addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/shader1_vert.vert");
+    program.addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/shader1_frag.frag");
     program.link();
     program.bind();
 
@@ -55,19 +58,30 @@ void OpenGlWidget::initializeGL()
 
 
     deferredProgram.create();
-    deferredProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/deferred_vert");
-    deferredProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/deferred_frag");
+    deferredProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/deferred_vert.vert");
+    deferredProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/deferred_frag.frag");
     deferredProgram.link();
 
     blurProgram.create();
-    blurProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/deferred_vert");
-    blurProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/blur_frag");
+    blurProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/deferred_vert.vert");
+    blurProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/blur_frag.frag");
     blurProgram.link();
 
     depthFieldProgram.create();
-    depthFieldProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/deferred_vert");
-    depthFieldProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/blur_frag");
+    depthFieldProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/deferred_vert.vert");
+    depthFieldProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/depthfield_frag_copy.frag");
     depthFieldProgram.link();
+
+    SSAOProgram.create();
+    SSAOProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/deferred_vert.vert");
+    SSAOProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/ssao_frag.frag");
+    SSAOProgram.link();
+
+    finalProgram.create();
+    finalProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, "./shaders/deferred_vert.vert");
+    finalProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, "./shaders/finalshader_frag.frag");
+    finalProgram.link();
+
 
     InitializeBuffers();
     program.bind();
@@ -81,7 +95,7 @@ void OpenGlWidget::initializeGL()
     if(!vbo.isCreated())
             vbo.create();
         vbo.bind();
-        vbo.setUsagePattern(QOpenGLBuffer::UsagePattern::StaticDraw);
+        vbo.setUsagePattern(QOpenGLBuffer::UsagePattern::DynamicDraw);
         vbo.allocate(verticesQuad, 49 * sizeof(float));
         // VAO: Captures state of VBOs
         if(!vao.isCreated())
@@ -159,10 +173,12 @@ void OpenGlWidget::paintGL()
         glClear(GL_COLOR_BUFFER_BIT);
          glBindTexture(GL_TEXTURE_2D, 0);
 
-         int colorIndex = glGetUniformLocation(deferredProgram.programId(), "colorTex");
-         int normalIndex  = glGetUniformLocation(deferredProgram.programId(), "normalMap");
+
     if(deferredProgram.bind())
     {
+        int colorIndex = glGetUniformLocation(deferredProgram.programId(), "colorTex");
+        int normalIndex  = glGetUniformLocation(deferredProgram.programId(), "normalMap");
+
         glUniform1i(colorIndex, 0);
         if(normalIndex != -1)
         glUniform1i(normalIndex, 1);
@@ -181,7 +197,7 @@ void OpenGlWidget::paintGL()
     }
 
     //BLUR---------------------
-     gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, HBlurFbo);
+     gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, 0);
      glClearDepth(1.0f);
      glClearColor(0.0f,0.0f,0.0f,1.0f);
      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -190,7 +206,7 @@ void OpenGlWidget::paintGL()
      glActiveTexture(GL_TEXTURE0);
     if(blurProgram.bind())
     {
-        colorIndex = glGetUniformLocation(blurProgram.programId(), "colorTex");
+        int colorIndex = glGetUniformLocation(blurProgram.programId(), "colorTex");
         int typeIndex  = glGetUniformLocation(blurProgram.programId(), "type");
         int texCoordIncIndex = glGetUniformLocation(blurProgram.programId(), "texCoordInc");
         glUniform1i(colorIndex, 0);
@@ -201,16 +217,150 @@ void OpenGlWidget::paintGL()
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D,deferredTexture);
 
-        if(normalIndex != -1){
-        glActiveTexture(GL_TEXTURE0 + 1);
-        glBindTexture(GL_TEXTURE_2D,normalTexture);
-          }
-
 
         vao.bind();
 
         glDrawArrays(GL_TRIANGLES, 0,6);
+/*
+        gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, VBlurFbo);
+        glUniform1i(typeIndex, 1);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D,HBlur);
+        glDrawArrays(GL_TRIANGLES, 0,6);
+
+*/
     }
+
+//BLUR----------
+
+    gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, DepthFieldFbo);
+    glClearDepth(1.0f);
+    glClearColor(0.0f,0.0f,0.0f,1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glActiveTexture(GL_TEXTURE0);
+   //DEPTH OF FIELD----------
+   if(depthFieldProgram.bind())
+   {
+       int colorIndex = glGetUniformLocation(depthFieldProgram.programId(), "colorTex");
+       int depthIndex = glGetUniformLocation(depthFieldProgram.programId(), "depthTex");
+       int typeIndex  = glGetUniformLocation(depthFieldProgram.programId(), "type");
+       int texCoordIncIndex = glGetUniformLocation(depthFieldProgram.programId(), "texCoordInc");
+       glUniform1i(colorIndex, 0);
+       glUniform1i(depthIndex, 1);
+       glUniform1i(typeIndex, 0);
+       float vec[2] = {(1.0f/width) * 5, (1.0f/height) * 5};
+       glUniform2fv(texCoordIncIndex, 1, &vec[0]);
+
+       glActiveTexture(GL_TEXTURE0);
+       glBindTexture(GL_TEXTURE_2D,deferredTexture);
+       glActiveTexture(GL_TEXTURE1);
+       glBindTexture(GL_TEXTURE_2D,depthTexture);
+
+       vao.bind();
+
+       glDrawArrays(GL_TRIANGLES, 0,6);
+
+   }
+
+   //DEPTH OF FIELD-------
+
+   //SSAO
+   gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, SSAOFbo);
+   glClearDepth(1.0f);
+   glClearColor(0.0f,0.0f,0.0f,1.0f);
+   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+   glBindTexture(GL_TEXTURE_2D, 0);
+   glActiveTexture(GL_TEXTURE0);
+   if(SSAOProgram.bind())
+   {
+       //RANDOMS
+       std::uniform_real_distribution<float> randomFloats(0.0, 1.0);
+       std::default_random_engine generator;
+       QVector<QVector3D> ssaoKernel;
+       for (unsigned int i = 0; i < 64; ++i)
+       {
+        QVector3D sample(
+        randomFloats(generator) * 2.0 - 1.0,
+        randomFloats(generator) * 2.0 - 1.0,
+        randomFloats(generator)
+        );
+        sample = sample.normalized();
+        sample *= randomFloats(generator);
+        float scale = (float)i / 64.0;
+        scale = (1 - scale * scale) * 0.1f + scale * scale * 1.0f;
+        sample *= scale;
+
+        ssaoKernel.push_back(sample);
+       }
+
+       //
+       int colorIndex = glGetUniformLocation(SSAOProgram.programId(), "colorTex");
+       int depthIndex = glGetUniformLocation(SSAOProgram.programId(), "depthTex");
+       int normalIndex = glGetUniformLocation(SSAOProgram.programId(), "normalTex");
+       int samplesIndex = glGetUniformLocation(SSAOProgram.programId(), "samples");
+       int projIndex = glGetUniformLocation(SSAOProgram.programId(), "proj");
+       int viewIndex = glGetUniformLocation(SSAOProgram.programId(), "view");
+       int viewSizeIndex = glGetUniformLocation(SSAOProgram.programId(), "viewportSize");
+       int texCoordIncIndex = glGetUniformLocation(SSAOProgram.programId(), "texCoordInc");
+       int rotVectorsIndex = glGetUniformLocation(SSAOProgram.programId(), "rotationVectorsTex");
+
+       glUniform1i(colorIndex, 0);
+       glUniform1i(depthIndex, 1);
+       glUniform1i(normalIndex, 2);
+       glUniform1i(rotVectorsIndex, 3);
+       SSAOProgram.setUniformValueArray(samplesIndex, &ssaoKernel[0], 64);
+       SSAOProgram.setUniformValue(viewSizeIndex, QVector2D(width, height));
+       glUniformMatrix4fv(projIndex,1, GL_FALSE, camera->projection.data());
+       glUniformMatrix4fv(viewIndex,1, GL_FALSE, camera->transform.data());
+
+       float vec[2] = {(1.0f/width), (1.0f/height)};
+       glUniform2fv(texCoordIncIndex, 1, &vec[0]);
+
+       glActiveTexture(GL_TEXTURE0);
+       glBindTexture(GL_TEXTURE_2D,deferredTexture);
+       glActiveTexture(GL_TEXTURE1);
+       glBindTexture(GL_TEXTURE_2D,depthTexture);
+       glActiveTexture(GL_TEXTURE2);
+       glBindTexture(GL_TEXTURE_2D,normalTexture);
+       glActiveTexture(GL_TEXTURE3);
+       glBindTexture(GL_TEXTURE_2D,rotationVectors);
+
+
+       vao.bind();
+
+       glDrawArrays(GL_TRIANGLES, 0,6);
+
+   }
+    //BLUR---------------------
+     gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, SSAOBlurFbo);
+     glClearDepth(1.0f);
+     glClearColor(0.0f,0.0f,0.0f,1.0f);
+     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+     glBindTexture(GL_TEXTURE_2D, 0);
+     glActiveTexture(GL_TEXTURE0);
+    if(blurProgram.bind())
+    {
+        int colorIndex = glGetUniformLocation(blurProgram.programId(), "colorTex");
+        int typeIndex  = glGetUniformLocation(blurProgram.programId(), "type");
+        int texCoordIncIndex = glGetUniformLocation(blurProgram.programId(), "texCoordInc");
+        glUniform1i(colorIndex, 0);
+        glUniform1i(typeIndex, 0);
+        float vec[2] = {(1.0f/width) * 5, (1.0f/height) * 5};
+        glUniform2fv(texCoordIncIndex, 1, &vec[0]);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D,SSAO);
+
+        vao.bind();
+
+        glDrawArrays(GL_TRIANGLES, 0,6);
+
+    }
+   //SSAO
     gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glClearDepth(1.0f);
     glClearColor(0.0f,0.0f,0.0f,1.0f);
@@ -218,56 +368,62 @@ void OpenGlWidget::paintGL()
 
     glBindTexture(GL_TEXTURE_2D, 0);
     glActiveTexture(GL_TEXTURE0);
-   if(blurProgram.bind())
+   if(finalProgram.bind())
    {
-       colorIndex = glGetUniformLocation(blurProgram.programId(), "colorTex");
-       int typeIndex  = glGetUniformLocation(blurProgram.programId(), "type");
-       int texCoordIncIndex = glGetUniformLocation(blurProgram.programId(), "texCoordInc");
-       glUniform1i(colorIndex, 0);
-       glUniform1i(typeIndex, 1);
-       float vec[2] = {(1.0f/width) * 5, (1.0f/height) * 5};
-       glUniform2fv(texCoordIncIndex, 1, &vec[0]);
+       int deferredIndex = glGetUniformLocation(finalProgram.programId(), "deferredTex");
+       int colorIndex = glGetUniformLocation(finalProgram.programId(), "colorTex");
+       int normalsIndex = glGetUniformLocation(finalProgram.programId(), "normalTex");
+       int depthIndex = glGetUniformLocation(finalProgram.programId(), "depthTex");
+       int SSAOIndex = glGetUniformLocation(finalProgram.programId(), "SSAOTex");
+       int SSAOBlurIndex = glGetUniformLocation(finalProgram.programId(), "SSAOBlurTex");
+       int depthFieldIndex = glGetUniformLocation(finalProgram.programId(), "depthFieldTex");
+       int blurIndex = glGetUniformLocation(finalProgram.programId(), "blurTex");
 
-       glActiveTexture(GL_TEXTURE0);
-       glBindTexture(GL_TEXTURE_2D,HBlur);
 
-       vao.bind();
+       int typeIndex  = glGetUniformLocation(finalProgram.programId(), "type");
 
-       glDrawArrays(GL_TRIANGLES, 0,6);
-   }
 
-//BLUR----------
+       glUniform1i(deferredIndex, 0);
+       glUniform1i(colorIndex, 1);
+       glUniform1i(normalsIndex, 2);
+       glUniform1i(depthIndex, 3);
+       glUniform1i(SSAOIndex, 4);
+       glUniform1i(SSAOBlurIndex, 5);
+       glUniform1i(depthFieldIndex, 6);
+       glUniform1i(blurIndex, 7);
 
-   //DEPTH OF FIELD----------
-   if(depthFieldProgram.bind())
-   {
-       colorIndex = glGetUniformLocation(blurProgram.programId(), "colorTex");
-       int typeIndex  = glGetUniformLocation(blurProgram.programId(), "type");
-       int texCoordIncIndex = glGetUniformLocation(blurProgram.programId(), "texCoordInc");
-       glUniform1i(colorIndex, 0);
        glUniform1i(typeIndex, 0);
-       float vec[2] = {(1.0f/width) * 5, (1.0f/height) * 5};
-       glUniform2fv(texCoordIncIndex, 1, &vec[0]);
+
 
        glActiveTexture(GL_TEXTURE0);
        glBindTexture(GL_TEXTURE_2D,deferredTexture);
-
-       if(normalIndex != -1){
-       glActiveTexture(GL_TEXTURE0 + 1);
+       glActiveTexture(GL_TEXTURE1);
+       glBindTexture(GL_TEXTURE_2D,colorTexture);
+       glActiveTexture(GL_TEXTURE2);
        glBindTexture(GL_TEXTURE_2D,normalTexture);
-         }
+       glActiveTexture(GL_TEXTURE3);
+       glBindTexture(GL_TEXTURE_2D,depthTexture);
+       glActiveTexture(GL_TEXTURE4);
+       glBindTexture(GL_TEXTURE_2D,SSAO);
+       glActiveTexture(GL_TEXTURE5);
+       glBindTexture(GL_TEXTURE_2D,SSAOBlur);
+       glActiveTexture(GL_TEXTURE6);
+       glBindTexture(GL_TEXTURE_2D,DepthField);
 
 
        vao.bind();
 
        glDrawArrays(GL_TRIANGLES, 0,6);
+
    }
+    //FINAL PASS
 
-   //DEPTH OF FIELD-------
 
+    //
        vao.release();
-       glBindTexture(GL_TEXTURE_2D, 0);
        glActiveTexture(GL_TEXTURE0);
+       glBindTexture(GL_TEXTURE_2D, 0);
+
 }
 
 void OpenGlWidget::InitializeBuffers()
@@ -308,41 +464,33 @@ void OpenGlWidget::InitializeBuffers()
        GLenum buffers[] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1};
        gl_functions->glDrawBuffers(2, buffers);
 
-       glGenTextures(1, &VBlur);
-       glBindTexture(GL_TEXTURE_2D, VBlur);
+       glGenTextures(1, &DepthField);
+       glBindTexture(GL_TEXTURE_2D, DepthField);
        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 
-       glGenTextures(1, &HBlur);
-       glBindTexture(GL_TEXTURE_2D, HBlur);
+       glGenTextures(1, &SSAOBlur);
+       glBindTexture(GL_TEXTURE_2D, SSAOBlur);
        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 
-
-       glGenTextures(1, &VDepthField);
-       glBindTexture(GL_TEXTURE_2D, VDepthField);
-       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-
-       glGenTextures(1, &HDepthField);
-       glBindTexture(GL_TEXTURE_2D, HDepthField);
-       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 
        glGenTextures(1, &deferredTexture);
        glBindTexture(GL_TEXTURE_2D, deferredTexture);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+
+       glGenTextures(1, &SSAO);
+       glBindTexture(GL_TEXTURE_2D, SSAO);
        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
@@ -357,38 +505,52 @@ void OpenGlWidget::InitializeBuffers()
        GLenum deferredBuffers[] = {GL_COLOR_ATTACHMENT0};
        gl_functions->glDrawBuffers(1, deferredBuffers);
 
-       gl_functions->glGenFramebuffers(1, &HBlurFbo);
-       gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, HBlurFbo);
-       gl_functions->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, HBlur, 0);
-
-       glDrawBuffer(GL_COLOR_ATTACHMENT0);
-       GLenum HBlurBuffers[] = {GL_COLOR_ATTACHMENT0};
-       gl_functions->glDrawBuffers(1, HBlurBuffers);
-
-       gl_functions->glGenFramebuffers(1, &VBlurFbo);
-       gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, VBlurFbo);
-       gl_functions->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, VBlur, 0);
-
        glDrawBuffer(GL_COLOR_ATTACHMENT0);
        GLenum VBlurBuffers[] = {GL_COLOR_ATTACHMENT0};
        gl_functions->glDrawBuffers(1, VBlurBuffers);
 
-       gl_functions->glGenFramebuffers(1, &HDepthFieldFbo);
-       gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, HDepthFieldFbo);
-       gl_functions->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, HDepthField, 0);
+       gl_functions->glGenFramebuffers(1, &DepthFieldFbo);
+       gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, DepthFieldFbo);
+       gl_functions->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, DepthField, 0);
 
        glDrawBuffer(GL_COLOR_ATTACHMENT0);
        GLenum HDepthFieldsBuffers[] = {GL_COLOR_ATTACHMENT0};
        gl_functions->glDrawBuffers(1, HDepthFieldsBuffers);
 
-       gl_functions->glGenFramebuffers(1, &VDepthFieldFbo);
-       gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, VDepthFieldFbo);
-       gl_functions->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, VDepthField, 0);
+       gl_functions->glGenFramebuffers(1, &SSAOFbo);
+       gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, SSAOFbo);
+       gl_functions->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, SSAO, 0);
 
        glDrawBuffer(GL_COLOR_ATTACHMENT0);
-       GLenum VDepthFieldsBuffers[] = {GL_COLOR_ATTACHMENT0};
-       gl_functions->glDrawBuffers(1, VDepthFieldsBuffers);
+       GLenum SSAOBlurBuffers[] = {GL_COLOR_ATTACHMENT0};
+       gl_functions->glDrawBuffers(1, SSAOBlurBuffers);
 
+       gl_functions->glGenFramebuffers(1, &SSAOBlurFbo);
+       gl_functions->glBindFramebuffer(GL_FRAMEBUFFER, SSAOBlurFbo);
+       gl_functions->glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, SSAOBlur, 0);
+
+       glDrawBuffer(GL_COLOR_ATTACHMENT0);
+       GLenum SSAOBuffers[] = {GL_COLOR_ATTACHMENT0};
+       gl_functions->glDrawBuffers(1, SSAOBuffers);
+
+       std::uniform_real_distribution<float> randomFloats(0.0, 1.0);
+       std::default_random_engine generator;
+       QVector<QVector3D> ssaoNoise;
+       for(unsigned int i = 0; i < 16; i++)
+       {
+           QVector3D noise(
+                       randomFloats(generator) * 2.0 - 1.0f,
+                       randomFloats(generator) * 2.0 - 1.0f,
+                       0.0f);
+           ssaoNoise. push_back(noise);
+       }
+       gl_functions->glGenTextures(1, &rotationVectors);
+       gl_functions->glBindTexture(GL_TEXTURE_2D, rotationVectors);
+       gl_functions->glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 4, 4, 0, GL_RGB, GL_FLOAT, &ssaoNoise[0]);
+       gl_functions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+       gl_functions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+       gl_functions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+       gl_functions->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
        GLenum status = gl_functions->glCheckFramebufferStatus(GL_FRAMEBUFFER);
         switch(status)

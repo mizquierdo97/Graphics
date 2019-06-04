@@ -25,8 +25,8 @@ public:
     QMatrix4x4 projection;
     float speed = 1.0f;
     float fov = 90.0f;
-    float nearPlane = 0.1f;
-    float farPlane = 300.0f;
+    float nearPlane = 1.0f;
+    float farPlane = 30.0f;
     float ratio = 1.0f;
 };
 extern Camera* camera;

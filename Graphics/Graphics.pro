@@ -89,9 +89,7 @@ CONFIG += console
 
 LIBS += -lopengl32
 
-RESOURCES += \
-icons.qrc \
-    icons.qrc
+RESOURCES +=
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/ThirdParty/Assimp/lib/ -lassimp
@@ -102,9 +100,12 @@ INCLUDEPATH += $$PWD/ThirdParty/Assimp/include
 DEPENDPATH += $$PWD/ThirdParty/Assimp/include
 
 DISTFILES += \
-    shaders/deferred_frag \
-    shaders/deferred_vert \
-    shaders/shader1_frag \
-    shaders/shader1_vert \
-    shaders/blur_frag \
-    shaders/depthfield_frag
+    shaders/finalshader_frag.frag \
+    shaders/blur_frag.frag \
+    shaders/deferred_frag.frag \
+    shaders/deferred_vert.vert \
+    shaders/depthfield_frag.frag \
+    shaders/depthfield_frag_copy.frag \
+    shaders/shader1_frag.frag \
+    shaders/shader1_vert.vert \
+    shaders/ssao_frag.frag

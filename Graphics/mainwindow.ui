@@ -33,12 +33,29 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionOpen_Project"/>
-    <addaction name="actionSave_Prohect"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
+   <widget class="QMenu" name="menuRender">
+    <property name="title">
+     <string>Render Mode</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="actionFINAL"/>
+    <addaction name="separator"/>
+    <addaction name="actionColor"/>
+    <addaction name="actionDepth"/>
+    <addaction name="actionNormal"/>
+    <addaction name="separator"/>
+    <addaction name="actionSSAO_only"/>
+    <addaction name="actionSSAO_deferred"/>
+    <addaction name="separator"/>
+    <addaction name="actionDepth_Field"/>
+    <addaction name="separator"/>
+    <addaction name="actionBlur"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuRender"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -91,8 +108,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionOpen_Project"/>
-   <addaction name="actionSave_Prohect"/>
    <addaction name="actionExit"/>
   </widget>
   <action name="actionOpen_Project">
@@ -116,6 +131,46 @@
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionFINAL">
+   <property name="text">
+    <string>FINAL</string>
+   </property>
+  </action>
+  <action name="actionColor">
+   <property name="text">
+    <string>Color</string>
+   </property>
+  </action>
+  <action name="actionDepth">
+   <property name="text">
+    <string>Depth</string>
+   </property>
+  </action>
+  <action name="actionNormal">
+   <property name="text">
+    <string>Normal</string>
+   </property>
+  </action>
+  <action name="actionSSAO_only">
+   <property name="text">
+    <string>SSAO only</string>
+   </property>
+  </action>
+  <action name="actionSSAO_deferred">
+   <property name="text">
+    <string>SSAO + deferred</string>
+   </property>
+  </action>
+  <action name="actionDepth_Field">
+   <property name="text">
+    <string>Depth Field</string>
+   </property>
+  </action>
+  <action name="actionBlur">
+   <property name="text">
+    <string>Blur</string>
    </property>
   </action>
  </widget>
