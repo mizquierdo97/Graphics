@@ -7,6 +7,7 @@
 #include "camera.h"
 #include "resources.h"
 #include "meshwidget.h"
+#include "shaderoptions.h"
 #include "ui_meshwidget.h"
 #include <QComboBox>
 
@@ -28,12 +29,25 @@ MainWindow::MainWindow(QWidget *parent) :
     resources = new Resources();
     CreateHierarchyWidget();
 
+    shaderOptions = new ShaderOptions();
+    ui->ShaderOptions->setWidget(shaderOptions);
+
     ResourceMesh* newMesh = new ResourceMesh();
     newMesh->path = "NONE";
     newMesh->name = "NONE";
     resources->meshResources.push_back(newMesh);
     inspectorWidget->meshWidget->ui->comboBox->addItem("NONE");
     resources->LoadResources("./assets");
+
+    connect(ui->actionExit, SIGNAL(triggered()), qApp, SLOT(quit()));
+    connect(ui->actionFINAL, SIGNAL(triggered()), this, SLOT(ActivateFinalRender()));
+    connect(ui->actionDeferred_SSAO, SIGNAL(triggered()), this, SLOT(ActivateSSAORender()));
+    connect(ui->actionDeferred, SIGNAL(triggered()), this, SLOT(ActivateDeferredRender()));
+    connect(ui->actionColor, SIGNAL(triggered()), this, SLOT(ActivateColorRender()));
+    connect(ui->actionNormal, SIGNAL(triggered()), this, SLOT(ActivateNormalRender()));
+    connect(ui->actionDepth, SIGNAL(triggered()), this, SLOT(ActivateDepthRender()));
+    connect(ui->actionSSAO_only, SIGNAL(triggered()), this, SLOT(ActivateOnlySSAORender()));
+    connect(ui->actionBlur, SIGNAL(triggered()), this, SLOT(ActivateBlurRender()));
 }
 
 MainWindow::~MainWindow()
@@ -56,15 +70,6 @@ void MainWindow::CreateHierarchyWidget()
 {
     hierarchyWidget = new Hierarchy();
     ui->Hierarchy->setWidget(hierarchyWidget);
-    connect(ui->actionExit, SIGNAL(triggered()), qApp, SLOT(quit()));
-    connect(ui->actionFINAL, SIGNAL(triggered()), this, SLOT(ActivateFinalRender()));
-    connect(ui->actionDeferred_SSAO, SIGNAL(triggered()), this, SLOT(ActivateSSAORender()));
-    connect(ui->actionDeferred, SIGNAL(triggered()), this, SLOT(ActivateDeferredRender()));
-    connect(ui->actionColor, SIGNAL(triggered()), this, SLOT(ActivateColorRender()));
-    connect(ui->actionNormal, SIGNAL(triggered()), this, SLOT(ActivateNormalRender()));
-    connect(ui->actionDepth, SIGNAL(triggered()), this, SLOT(ActivateDepthRender()));
-    connect(ui->actionSSAO_only, SIGNAL(triggered()), this, SLOT(ActivateOnlySSAORender()));
-    connect(ui->actionBlur, SIGNAL(triggered()), this, SLOT(ActivateBlurRender()));
     hierarchyWidget->parentWidget = this;
 }
 

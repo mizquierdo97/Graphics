@@ -54,6 +54,13 @@ public:
     QTimer timer;
 
     int renderType = 0;
+
+    float blur = 0.1f;
+    int samples = 10;
+    float fLength = 5.0f;
+    float fDepth = 10.0f;
+    float fStop = 0.5f;
+    float radius = 1.0f;
 private:
     GLuint colorTexture;
     GLuint depthTexture;
@@ -62,6 +69,7 @@ private:
     GLuint deferredTexture;
 
     GLuint DepthField;
+    GLuint blurTexture;
 
     GLuint SSAO;
     GLuint SSAOBlur;
@@ -72,6 +80,8 @@ private:
     GLuint DepthFieldFbo;
     GLuint SSAOFbo;
     GLuint SSAOBlurFbo;
+    GLuint blurFbo;
+
 
     int width = 100;
     int height = 100;

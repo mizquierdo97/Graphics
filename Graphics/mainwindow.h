@@ -12,7 +12,7 @@ class Inspector;
 class InspectorWidget;
 class SceneWidget;
 class Hierarchy;
-
+class ShaderOptions;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -47,7 +47,8 @@ private:
     Ui::Rendering *uiRendering;
     //Inspector *inspector;
 
-    Hierarchy *hierarchyWidget;
+    ShaderOptions* shaderOptions = nullptr;
+    Hierarchy *hierarchyWidget = nullptr;
     Object* selectedObject = nullptr;
 };
 extern MainWindow* mainWindow;

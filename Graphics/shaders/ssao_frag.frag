@@ -13,9 +13,9 @@ uniform sampler2D colorTex;
 uniform sampler2D normalTex;
 uniform sampler2D depthTex;
 uniform sampler2D rotationVectorsTex;
-uniform int type = 0;
 uniform vec2 texCoordInc = vec2(0.001);
 uniform vec3 samples[64];
+uniform float radius = 1.0f;
 
 uniform mat4 view;
 uniform mat4 proj;
@@ -50,7 +50,6 @@ void main(void)
     {
         vec3 p = TBN * samples[i];
         vec4 v = inverse(view) * vec4(p.xyz, 0.0f);
-        float radius = 0.5f;
         vec3 s = GetViewFragPos(depth) + v.xyz * radius;
         vec4 sampleTextCoord = proj * vec4(s, 1.0f);
         sampleTextCoord.xyz/= sampleTextCoord.w;

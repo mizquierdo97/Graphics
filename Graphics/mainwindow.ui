@@ -109,6 +109,15 @@
    </attribute>
    <addaction name="actionExit"/>
   </widget>
+  <widget class="QDockWidget" name="ShaderOptions">
+   <property name="windowTitle">
+    <string>Shader Options</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents"/>
+  </widget>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>

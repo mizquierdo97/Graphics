@@ -46,7 +46,8 @@ SOURCES += \
     resource.cpp \
     textureswidget.cpp \
     material.cpp \
-    transwidget.cpp
+    transwidget.cpp \
+    shaderoptions.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -70,7 +71,8 @@ HEADERS += \
     resource.h \
     textureswidget.h \
     material.h \
-    transwidget.h
+    transwidget.h \
+    shaderoptions.h
 
 FORMS += \
         mainwindow.ui \
@@ -78,7 +80,8 @@ FORMS += \
     hierarchy.ui \
     meshwidget.ui \
     textureswidget.ui \
-    transwidget.ui
+    transwidget.ui \
+    shaderoptions.ui
 
 #Adds openGL library
 QT += opengl
